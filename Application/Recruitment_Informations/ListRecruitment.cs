@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Recruitment_Informations.CustomizeResponseObject;
+using Domain;
 using MediatR;
 using Persistence;
 using System;
