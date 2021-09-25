@@ -6,8 +6,10 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Application.Error;
 
 namespace Infrastructure.Firebase
 {
@@ -29,7 +31,7 @@ namespace Infrastructure.Firebase
             }
             catch (Exception ex)
             {
-                return null;
+                return "Firebase Exception: "+ex.Message;
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Application.Interface;
+﻿using Application.Error;
+using Application.Interface;
 using Application.User.CostomizeResponseObject;
 using FirebaseAdmin;
 using FirebaseAdmin.Auth;
@@ -9,6 +10,7 @@ using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,6 +43,11 @@ namespace Application.User
                 _firebaseSupport.initFirebase();
                 //get user from firebase token
                 var email = await _firebaseSupport.getEmailFromToken(request.FireBaseToken);
+                //check if token error:
+                if(email.Contains("Firebase Exception:"))
+                {
+                    throw new FirebaseLoginException(HttpStatusCode.BadRequest, email.Substring(20));
+                }
                 //process login
                 string role = request.Role;
                 if (role.Equals("Student"))
@@ -57,7 +64,7 @@ namespace Application.User
                         };
                     } else
                     {
-                        return null;
+                        throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
                     }
                 } else if (role.Equals("FPTStaff"))
                 {
@@ -72,7 +79,7 @@ namespace Application.User
                         };
                     }else
                     {
-                        return null;
+                        throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
                     }
                 } else if (role.Equals("Company"))
                 {
@@ -88,7 +95,7 @@ namespace Application.User
                     }
                     else
                     {
-                        return null;
+                        throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
                     }
                 }
                 return null;

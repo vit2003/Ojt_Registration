@@ -1,4 +1,6 @@
-﻿using Application.Recruitment_Informations.CustomizeResponseObject;
+﻿using Application.Error;
+using Application.Recruitment_Informations.CustomizeResponseObject;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -29,6 +31,11 @@ namespace Application.Recruitment_Informations
             public async Task<InformationDetail> Handle(Query request, CancellationToken cancellationToken)
             {
                 var information_detail = await _context.RecruitmentInformations.FirstOrDefaultAsync(x => x.Id == request.Id);
+
+                if(information_detail == null)
+                {
+                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No information detail matches");
+                }
 
                 var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == information_detail.CompanyId);
 

@@ -1,5 +1,8 @@
+﻿using API.Middleware;
 using Application.Interface;
+using Application.Recruitment_Informations;
 using Application.Students;
+using FluentValidation.AspNetCore;
 using Infrastructure.Firebase;
 using Infrastructure.JWTGenerate;
 using MediatR;
@@ -25,8 +28,12 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddControllers();
+            //bình thường ở đây chỉ có controller thôi, để add và sử dụng fluent validator mình add thêm fluence validator vào.
+            services.AddControllers()
+                .AddFluentValidation(cfg =>
+            {
+                cfg.RegisterValidatorsFromAssemblyContaining<Detail>();
+            });
 
             //add cross origin
             services.AddCors(opt =>
@@ -55,12 +62,14 @@ namespace API
 
             //Add Scope for process firebase token
             services.AddScoped<IFirebaseSupport, FirebaseSupport>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
+            //app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
