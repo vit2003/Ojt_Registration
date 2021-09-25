@@ -1,18 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Application.Interface;
 using Application.Students;
+using Infrastructure.Firebase;
+using Infrastructure.JWTGenerate;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Persistence;
 
@@ -55,6 +50,11 @@ namespace API
             //Add Services for MediatR
             services.AddMediatR(typeof(StudentInfo.Handler).Assembly);
 
+            //Add Scope for generate firebase token
+            services.AddScoped<IJwtGenerator, JwtGenerator>();
+
+            //Add Scope for process firebase token
+            services.AddScoped<IFirebaseSupport, FirebaseSupport>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

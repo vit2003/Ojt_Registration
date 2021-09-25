@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/recruitment_informations")]
     [ApiController]
     public class RecruitmentInformationController : ControllerBase
     {
@@ -32,8 +32,8 @@ namespace API.Controllers
         {
             return await _mediator.Send(new Detail.Query
             {
-                Id = id
-            });
+                Id = int.Parse(id)
+            }); ;
         }
     }
 }

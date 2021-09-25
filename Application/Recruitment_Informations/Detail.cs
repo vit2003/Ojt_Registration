@@ -1,5 +1,6 @@
 ﻿using Application.Recruitment_Informations.CustomizeResponseObject;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace Application.Recruitment_Informations
     {
         public class Query : IRequest<InformationDetail>
         {
-            public string Id { get; set; }
+            public int Id { get; set; }
         }
         //get access to db context
         public class Handler : IRequestHandler<Query, InformationDetail>
@@ -27,16 +28,22 @@ namespace Application.Recruitment_Informations
             }
             public async Task<InformationDetail> Handle(Query request, CancellationToken cancellationToken)
             {
+                var information_detail = await _context.RecruitmentInformations.FirstOrDefaultAsync(x => x.Id == request.Id);
+
+                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == information_detail.CompanyId);
+
+                var major = await _context.Majors.FirstOrDefaultAsync(x => x.Id == information_detail.MajorId);
+
                 return new InformationDetail
                 {
-                    id = 01,
-                    Address = "312 Lạc Long Quân, P5, Q11, Tp.HCM",
-                    CompanyName = "Công ty thương mại điện tử Magezon",
-                    CompanyWebsite = "www.newwaymedia.vn",
-                    Content = "- Project Implement skills. \n - Good communication. \n - Ability to effectively handle and solve some problems \n - Capable of teamwork",
-                    Deadline = new DateTime(11 / 11 / 2021),
-                    MajorName = "SE",
-                    Salary = "Thỏa thuận"
+                    Address = company.Address,
+                    CompanyName = company.CompanyName,
+                    CompanyWebsite = company.WebSite,
+                    Content = information_detail.Content,
+                    Deadline = information_detail.Deadline,
+                    id = information_detail.Id,
+                    MajorName = major.MajorName,
+                    Salary = information_detail.Salary
                 };
             }
         }
