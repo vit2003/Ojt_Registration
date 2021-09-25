@@ -16,6 +16,8 @@ namespace Domain
         public string CompanyName { get; set; }
         public string Address { get; set; }
         public string WebSite { get; set; }
+        public string Email { get; set; }
+        public string Fullname { get; set; }
 
         public virtual ICollection<OjtReport> OjtReports { get; set; }
         public virtual ICollection<RecruitmentInformation> RecruitmentInformations { get; set; }

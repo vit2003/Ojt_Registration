@@ -1,5 +1,6 @@
 ﻿using System;
 using Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -36,6 +37,7 @@ namespace Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Company>(entity =>
@@ -56,6 +58,15 @@ namespace Persistence
                     .IsRequired()
                     .HasColumnType("ntext")
                     .HasColumnName("company_name");
+
+                entity.Property(e => e.Email)
+                    .IsRequired()
+                    .HasColumnType("text")
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Fullname)
+                    .HasColumnType("ntext")
+                    .HasColumnName("fullname");
             });
 
             modelBuilder.Entity<FptStaff>(entity =>
@@ -189,10 +200,6 @@ namespace Persistence
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Address)
-                    .HasColumnType("ntext")
-                    .HasColumnName("address");
-
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
                 entity.Property(e => e.Content)
@@ -254,6 +261,10 @@ namespace Persistence
                     .HasColumnName("phone");
 
                 entity.Property(e => e.Term).HasColumnName("term");
+
+                entity.Property(e => e.Fullname)
+                    .HasColumnType("ntext")
+                    .HasColumnName("fullname");
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.Students)
