@@ -25,6 +25,7 @@ namespace Domain
         public string StudentCode { get; set; }
         public string Email { get; set; }
         public string Fullname { get; set; }
+        public string Gender { get; set; }
         public virtual Company Company { get; set; }
         public virtual Major Major { get; set; }
         public virtual ICollection<OjtReport> OjtReports { get; set; }

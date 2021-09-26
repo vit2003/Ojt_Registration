@@ -253,7 +253,7 @@ namespace Persistence
                     .HasColumnName("student_code");
 
                 entity.Property(e => e.Email)
-                    .HasColumnType("text")
+                    .HasColumnType("varchar(MAX)")
                     .HasColumnName("email");
 
                 entity.Property(e => e.Phone)
@@ -265,6 +265,10 @@ namespace Persistence
                 entity.Property(e => e.Fullname)
                     .HasColumnType("ntext")
                     .HasColumnName("fullname");
+
+                entity.Property(e => e.Gender)
+                    .HasColumnType("text")
+                    .HasColumnName("gender");
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.Students)
