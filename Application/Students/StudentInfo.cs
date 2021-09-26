@@ -1,6 +1,8 @@
-﻿using Application.Students.CustomizeResponseObject;
+﻿using Application.Error;
+using Application.Students.CustomizeResponseObject;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
 using System.Collections.Generic;
@@ -28,17 +30,23 @@ namespace Application.Students
             }
             public async Task<StudentDetailReturn> Handle(Query request, CancellationToken cancellationToken)
             {
+                var student = await _context.Students.Include(x => x.Major).FirstOrDefaultAsync(x => x.Email.Trim() == request.Email.Trim());
+
+                if(student == null)
+                {
+                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No student matches with email");
+                }
+
                 return new StudentDetailReturn
                 {
-                    Address = "ab/c Pvh, Tb, HCM",
-                    BirthDate = new DateTime(10 / 10 / 1999),
-                    Email = "tultse130223@fpt.edu.vn",
-                    FullName = "Lê Thanh Tú",
-                    Gender = "Female",
-                    Major = "SE",
-                    Phone = "0912345678",
-                    StuCode = "SE130223",
-                    Term = 10
+                    Major = student.Major.MajorName,
+                    BirthDate = student.Birthday,
+                    Email = student.Email,
+                    FullName = student.Fullname,
+                    Gender = student.Gender,
+                    Phone = student.Phone,
+                    StuCode = student.StudentCode,
+                    Term = student.Term
                 };
             }
         }
