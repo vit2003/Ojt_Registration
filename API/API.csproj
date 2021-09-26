@@ -5,9 +5,6 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="Cridentials\GoogleCridential.json" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Cridentials\GoogleCridential.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
