@@ -6,13 +6,19 @@ using FluentValidation.AspNetCore;
 using Infrastructure.Firebase;
 using Infrastructure.JWTGenerate;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using System.Text;
 
 namespace API
 {
@@ -63,6 +69,24 @@ namespace API
             //Add Scope for process firebase token
             services.AddScoped<IFirebaseSupport, FirebaseSupport>();
 
+            //Add verify jwt services
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey (Encoding.UTF8.GetBytes(Configuration["Jwt:Secretkey"]))
+                    };
+                });
+
+            services.AddMvc(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,7 +95,6 @@ namespace API
             app.UseMiddleware<ErrorHandlingMiddleware>();
             //app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
 
             app.UseHttpsRedirection();
 
@@ -79,8 +102,10 @@ namespace API
 
             app.UseCors("AllowAllOrigins");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ojt-Registration"));
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

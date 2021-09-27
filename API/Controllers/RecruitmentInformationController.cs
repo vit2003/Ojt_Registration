@@ -1,6 +1,7 @@
 ﻿using Application.Recruitment_Informations;
 using Application.Recruitment_Informations.CustomizeResponseObject;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;

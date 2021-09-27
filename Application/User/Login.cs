@@ -69,7 +69,11 @@ namespace Application.User
                 } else if (role.Equals("FPTStaff"))
                 {
                     var curUser = await _context.FptStaffs.FirstOrDefaultAsync(x => x.Email == email);
-                    if(curUser != null)
+                    if (curUser == null)
+                    {
+                        throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
+                    }
+                    if (curUser != null)
                     {
                         return new Account
                         {
@@ -77,9 +81,6 @@ namespace Application.User
                             Name = curUser.Fullname,
                             Token = _jwtGenerator.CreateToken(curUser.Email, curUser.Fullname)
                         };
-                    }else
-                    {
-                        throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
                     }
                 } else if (role.Equals("Company"))
                 {
@@ -98,7 +99,7 @@ namespace Application.User
                         throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
                     }
                 }
-                return null;
+                throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
             }
         }
     }

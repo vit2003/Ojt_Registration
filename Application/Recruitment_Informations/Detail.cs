@@ -30,22 +30,20 @@ namespace Application.Recruitment_Informations
             }
             public async Task<InformationDetail> Handle(Query request, CancellationToken cancellationToken)
             {
-                var information_detail = await _context.RecruitmentInformations.FirstOrDefaultAsync(x => x.Id == request.Id);
+                var information_detail = await _context.RecruitmentInformations.Include(x => x.Company).FirstOrDefaultAsync(x => x.Id == request.Id);
 
                 if(information_detail == null)
                 {
                     throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No information detail matches");
                 }
 
-                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == information_detail.CompanyId);
-
                 var major = await _context.Majors.FirstOrDefaultAsync(x => x.Id == information_detail.MajorId);
 
                 return new InformationDetail
                 {
-                    Address = company.Address,
-                    CompanyName = company.CompanyName,
-                    CompanyWebsite = company.WebSite,
+                    Address = information_detail.Company.Address,
+                    CompanyName = information_detail.Company.CompanyName,
+                    CompanyWebsite = information_detail.Company.WebSite,
                     Content = information_detail.Content,
                     Deadline = information_detail.Deadline,
                     id = information_detail.Id,

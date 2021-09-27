@@ -1,6 +1,7 @@
 ﻿using Application.User;
 using Application.User.CostomizeResponseObject;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,6 +23,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<Account>> Login(Login.Query query)
         {
             return await _mediator.Send(query);

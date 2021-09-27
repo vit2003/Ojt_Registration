@@ -61,7 +61,7 @@ namespace Persistence
 
                 entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasColumnType("text")
+                    .HasColumnType("varchar(MAX)")
                     .HasColumnName("email");
 
                 entity.Property(e => e.Fullname)
@@ -77,7 +77,7 @@ namespace Persistence
 
                 entity.Property(e => e.Email)
                     .IsRequired()
-                    .HasColumnType("text")
+                    .HasColumnType("varchar(MAX)")
                     .HasColumnName("email");
 
                 entity.Property(e => e.Fullname)
@@ -86,7 +86,6 @@ namespace Persistence
                     .HasColumnName("fullname");
 
                 entity.Property(e => e.Image)
-                    .IsRequired()
                     .HasColumnType("text");
             });
 
