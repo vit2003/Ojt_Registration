@@ -17,7 +17,7 @@ namespace Application.Students
     {
         public class Query : IRequest<StudentDetailReturn>
         {
-            public string Email { get; set; }
+            public string StudentCode { get; set; }
         }
         //get access to db context
         public class Handler : IRequestHandler<Query, StudentDetailReturn>
@@ -30,7 +30,7 @@ namespace Application.Students
             }
             public async Task<StudentDetailReturn> Handle(Query request, CancellationToken cancellationToken)
             {
-                var student = await _context.Students.Include(x => x.Major).FirstOrDefaultAsync(x => x.Email.Trim() == request.Email.Trim());
+                var student = await _context.Students.Include(x => x.Major).FirstOrDefaultAsync(x => x.StudentCode == request.StudentCode);
 
                 if(student == null)
                 {

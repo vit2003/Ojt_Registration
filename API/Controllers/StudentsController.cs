@@ -22,12 +22,12 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet("{email}")]
-        public async Task<ActionResult<StudentDetailReturn>> StudentInfo(string email)
+        [HttpGet("{Code}")]
+        public async Task<ActionResult<StudentDetailReturn>> StudentInfo(string code)
         {
             return await _mediator.Send(new StudentInfo.Query
             {
-                Email = email
+                StudentCode = code
             });
         }
     }

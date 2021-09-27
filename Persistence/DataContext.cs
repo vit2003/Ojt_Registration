@@ -248,7 +248,7 @@ namespace Persistence
                 entity.Property(e => e.MajorId).HasColumnName("major_id");
 
                 entity.Property(e => e.StudentCode)
-                    .HasColumnType("text")
+                    .HasColumnType("varchar(MAX)")
                     .HasColumnName("student_code");
 
                 entity.Property(e => e.Email)
