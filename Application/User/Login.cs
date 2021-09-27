@@ -22,7 +22,7 @@ namespace Application.User
         public class Query : IRequest<Account>
         {
             public string FireBaseToken { get; set; }
-            public string Role { get; set; }
+            public int Role { get; set; }
         }
         //get access to db context
         public class Handler : IRequestHandler<Query, Account>
@@ -49,8 +49,7 @@ namespace Application.User
                     throw new FirebaseLoginException(HttpStatusCode.BadRequest, email.Substring(20));
                 }
                 //process login
-                string role = request.Role;
-                if (role.Equals("Student"))
+                if (request.Role == 0)
                 {
                     var curUser = await _context.Students.FirstOrDefaultAsync(x => x.Email == email);
                     if(curUser != null)
@@ -58,7 +57,7 @@ namespace Application.User
                         return new Account
                         {
                             Code = curUser.StudentCode,
-                            Email = curUser.Email,
+                            Role = request.Role,
                             Name = curUser.Fullname,
                             Token = _jwtGenerator.CreateToken(curUser.Email, curUser.Fullname)
                         };
@@ -66,7 +65,7 @@ namespace Application.User
                     {
                         throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
                     }
-                } else if (role.Equals("FPTStaff"))
+                } else if (request.Role == 1)
                 {
                     var curUser = await _context.FptStaffs.FirstOrDefaultAsync(x => x.Email == email);
                     if (curUser == null)
@@ -77,19 +76,19 @@ namespace Application.User
                     {
                         return new Account
                         {
-                            Email = curUser.Email,
+                            Role = request.Role,
                             Name = curUser.Fullname,
                             Token = _jwtGenerator.CreateToken(curUser.Email, curUser.Fullname)
                         };
                     }
-                } else if (role.Equals("Company"))
+                } else if (request.Role == 2)
                 {
                     var curUser = await _context.Companies.FirstOrDefaultAsync(x => x.Email == email);
                     if(curUser != null)
                     {
                         return new Account
                         {
-                            Email = curUser.Email,
+                            Role = request.Role,
                             Name = curUser.Fullname,
                             Token = _jwtGenerator.CreateToken(curUser.Email, curUser.Fullname)
                         };
