@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/applications")]
     [ApiController]
     public class ApplicationController : ControllerBase
     {

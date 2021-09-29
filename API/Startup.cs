@@ -82,11 +82,11 @@ namespace API
                     };
                 });
 
-            services.AddMvc(opt =>
-            {
-                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                opt.Filters.Add(new AuthorizeFilter(policy));
-            });
+            //services.AddMvc(opt =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            //    opt.Filters.Add(new AuthorizeFilter(policy));
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

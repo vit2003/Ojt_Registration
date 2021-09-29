@@ -34,7 +34,7 @@ namespace Application.Students
 
                 if(student == null)
                 {
-                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No student matches with email");
+                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No student matches with the student code");
                 }
 
                 return new StudentDetailReturn
