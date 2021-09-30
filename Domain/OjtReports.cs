@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Domain
 {
-    public partial class OjtReport
+    public partial class OjtReports
     {
         public int Id { get; set; }
         public string WorkSortDescription { get; set; }
@@ -19,6 +19,7 @@ namespace Domain
         public string Devision { get; set; }
         public string LineManagerName { get; set; }
         public string StudentEmail { get; set; }
+
 
         public virtual Company Company { get; set; }
         public virtual Student Student { get; set; }

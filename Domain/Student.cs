@@ -9,7 +9,7 @@ namespace Domain
     {
         public Student()
         {
-            OjtReports = new HashSet<OjtReport>();
+            OjtReports = new HashSet<OjtReports>();
             RecruimentApplies = new HashSet<RecruimentApply>();
         }
 
@@ -28,7 +28,7 @@ namespace Domain
         public string Gender { get; set; }
         public virtual Company Company { get; set; }
         public virtual Major Major { get; set; }
-        public virtual ICollection<OjtReport> OjtReports { get; set; }
+        public virtual ICollection<OjtReports> OjtReports { get; set; }
         public virtual ICollection<RecruimentApply> RecruimentApplies { get; set; }
     }
 }
