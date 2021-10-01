@@ -16,11 +16,11 @@ namespace Application.OjtReport
 
     public class ViewOjtReport
     {
-        public class Query : IRequest<List<ReportDetail>>
+        public class Query : IRequest<List<ReportDetailInList>>
         {
             
         }
-        public class Handler : IRequestHandler<Query, List<ReportDetail>>
+        public class Handler : IRequestHandler<Query, List<ReportDetailInList>>
         {
             private readonly DataContext _context;
 
@@ -28,18 +28,18 @@ namespace Application.OjtReport
             {
                 _context = context;
             }
-            public async Task<List<ReportDetail>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<List<ReportDetailInList>> Handle(Query request, CancellationToken cancellationToken)
 
             {
-                var report_details = await _context.OjtReports.Include(x => x.Student).ToListAsync();
+                var report_details = await _context.OjtReports.Include(x => x.Student).Where(x => x.Public_Date >= DateTime.Now.AddMonths(-4)).ToListAsync();
                 if(report_details == null)
                 {
                     throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No report found");
                 }
-                var result = new List<ReportDetail>();
+                var result = new List<ReportDetailInList>();
                 foreach(OjtReports report in report_details)
                 {
-                    var report_detail = new ReportDetail
+                    var report_detail = new ReportDetailInList
                     {
                         StudentCode = report.Student.StudentCode,
                         StudentName = report.Student.Fullname,

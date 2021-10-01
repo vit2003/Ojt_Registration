@@ -108,9 +108,9 @@ namespace Persistence
 
                 entity.Property(e => e.CompanyId).HasColumnName("company_id");
 
-                entity.Property(e => e.Devision)
+                entity.Property(e => e.Division)
                     .HasColumnType("ntext")
-                    .HasColumnName("devision");
+                    .HasColumnName("division");
 
                 entity.Property(e => e.EndDate)
                     .HasColumnType("datetime")
@@ -128,19 +128,15 @@ namespace Persistence
                     .HasColumnType("datetime")
                     .HasColumnName("start_date");
 
-                entity.Property(e => e.StudentEmail)
-                    .HasColumnType("text")
-                    .HasColumnName("student_email");
-
                 entity.Property(e => e.StudentId).HasColumnName("student_id");
-
-                entity.Property(e => e.StudentName)
-                    .HasColumnType("ntext")
-                    .HasColumnName("student_name");
 
                 entity.Property(e => e.WorkSortDescription)
                     .HasColumnType("ntext")
                     .HasColumnName("work_sort_description");
+
+                entity.Property(e => e.Public_Date)
+                    .HasColumnType("datetime")
+                    .HasColumnName("public_date");
 
                 entity.HasOne(d => d.Company)
                     .WithMany(p => p.OjtReports)

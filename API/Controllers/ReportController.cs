@@ -21,7 +21,7 @@ namespace API.Controllers
             this.mediator = mediator;
         }
         [HttpGet]
-        public async Task<ActionResult<List<ReportDetail>>> ReportDetail()
+        public async Task<ActionResult<List<ReportDetailInList>>> ReportDetail()
         {
             return await mediator.Send(new ViewOjtReport.Query());
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.OjtReport.CustomizeResponseObject
 {
-    public class ReportDetail
+    public class ReportDetailInList
     {
         public string WorkSortDescription { get; set; }
         public string StudentCode { get; set; }

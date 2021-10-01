@@ -15,10 +15,9 @@ namespace Domain
         public int? OnWorkDate { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string StudentName { get; set; }
-        public string Devision { get; set; }
+        public string Division { get; set; }
         public string LineManagerName { get; set; }
-        public string StudentEmail { get; set; }
+        public DateTime? Public_Date { get; set; }
 
 
         public virtual Company Company { get; set; }
