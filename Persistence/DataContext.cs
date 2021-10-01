@@ -22,7 +22,7 @@ namespace Persistence
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<FptStaff> FptStaffs { get; set; }
         public virtual DbSet<Major> Majors { get; set; }
-        public virtual DbSet<OjtReport> OjtReports { get; set; }
+        public virtual DbSet<OjtReports> OjtReports { get; set; }
         public virtual DbSet<RecruimentApply> RecruimentApplies { get; set; }
         public virtual DbSet<RecruitmentInformation> RecruitmentInformations { get; set; }
         public virtual DbSet<Student> Students { get; set; }
@@ -100,7 +100,7 @@ namespace Persistence
                     .HasColumnName("major_name");
             });
 
-            modelBuilder.Entity<OjtReport>(entity =>
+            modelBuilder.Entity<OjtReports>(entity =>
             {
                 entity.ToTable("tbl_ojt_report");
 
