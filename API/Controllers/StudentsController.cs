@@ -11,7 +11,7 @@ using Application.Students.CustomizeResponseObject;
 
 namespace API.Controllers
 {
-    [Route("api/students")]
+    [Route("students")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
