@@ -3,61 +3,68 @@ using Application.Interface;
 using Application.User.CostomizeResponseObject;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Persistence;
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Application.User
 {
-    public class Login
+    public class ProcessRefreshTokens
     {
-        public class Query : IRequest<Account>
+        public class Command : IRequest<Account>
         {
-            public string FireBaseToken { get; set; }
+            [Required]
+            public string RefreshToken { get; set; }
+            [Required]
             public int Role { get; set; }
         }
-        //get access to db context
-        public class Handler : IRequestHandler<Query, Account>
+
+        public class Handler : IRequestHandler<Command, Account>
         {
             private readonly DataContext _context;
+            private readonly IConfiguration _configuration;
             private readonly IJwtGenerator _jwtGenerator;
-            private readonly IFirebaseSupport _firebaseSupport;
 
-            public Handler(DataContext context, IJwtGenerator jwtGenerator, IFirebaseSupport firebaseSupport)
+            public Handler(DataContext context, IConfiguration configuration, IJwtGenerator jwtGenerator)
             {
                 _context = context;
+                _configuration = configuration;
                 _jwtGenerator = jwtGenerator;
-                _firebaseSupport = firebaseSupport;
             }
-            public async Task<Account> Handle(Query request, CancellationToken cancellationToken)
+
+            public async Task<Account> Handle(Command request, CancellationToken cancellationToken)
             {
-                //init firebase
-                _firebaseSupport.initFirebase();
-                //get user from firebase token
-                var email = await _firebaseSupport.getEmailFromToken(request.FireBaseToken);
-                //check if token error:
-                if(email.Contains("Firebase Exception:"))
+                var refreshToken = await _context.RefreshToken.FirstOrDefaultAsync(x => x.Token == request.RefreshToken && !x.IsUsed);
+
+                if(refreshToken == null)
                 {
-                    throw new FirebaseLoginException(HttpStatusCode.BadRequest, email.Substring(20));
+                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "Invalid refresh token");
                 }
-                //process login
+                refreshToken.IsUsed = true;
+                _context.RefreshToken.Update(refreshToken);
+                _context.SaveChanges();
                 if (request.Role == 0) //Student login
                 {
-                    var curUser = await _context.Students.FirstOrDefaultAsync(x => x.Email == email);
-                    if(curUser != null)
+                    var curUser = await _context.Students.FirstOrDefaultAsync(x => x.Email == refreshToken.Email);
+                    if (curUser != null)
                     {
                         var account = await _jwtGenerator.CreateToken(curUser.Email, curUser.Fullname);
                         account.Role = request.Role;
                         account.Code = curUser.StudentCode;
                         return account;
-                    } else
+                    }
+                    else
                     {
                         throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
                     }
-                } else if (request.Role == 1) //login for role fpt staff
+                }
+                else if (request.Role == 1) //login for role fpt staff
                 {
-                    var curUser = await _context.FptStaffs.FirstOrDefaultAsync(x => x.Email == email);
+                    var curUser = await _context.FptStaffs.FirstOrDefaultAsync(x => x.Email == refreshToken.Email);
                     if (curUser == null)
                     {
                         throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
@@ -68,10 +75,11 @@ namespace Application.User
                         account.Role = request.Role;
                         return account;
                     }
-                } else if (request.Role == 2) //login for role company
+                }
+                else if (request.Role == 2) //login for role company
                 {
-                    var curUser = await _context.Companies.FirstOrDefaultAsync(x => x.Email == email);
-                    if(curUser != null)
+                    var curUser = await _context.Companies.FirstOrDefaultAsync(x => x.Email == refreshToken.Email);
+                    if (curUser != null)
                     {
                         var account = await _jwtGenerator.CreateToken(curUser.Email, curUser.Fullname);
                         account.Role = request.Role;
@@ -82,7 +90,7 @@ namespace Application.User
                         throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
                     }
                 }
-                throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
+                throw new Exception("Invalid refresh token");
             }
         }
     }

@@ -31,13 +31,13 @@ namespace Application.Application
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                //handler logic 
-                //var success = await _context.SaveChangesAsync() > 0;
-                //if (success)
-                //{
+                //handler logic
+                var success = await _context.SaveChangesAsync() > 0;
+                if (success)
+                {
                     return Unit.Value;
-                //}
-                //throw new Exception("Problem save changes");
+                }
+                throw new Exception("Problem save changes");
             }
         }
     }

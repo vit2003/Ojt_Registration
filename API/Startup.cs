@@ -70,16 +70,23 @@ namespace API
             services.AddScoped<IFirebaseSupport, FirebaseSupport>();
 
             //Add verify jwt services
+            var tokenValidationParams = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                RequireExpirationTime = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Secretkey"]))
+            };
+
+            services.AddSingleton(tokenValidationParams);
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
-                    opt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey (Encoding.UTF8.GetBytes(Configuration["Jwt:Secretkey"]))
-                    };
+                    opt.SaveToken = true;
+                    opt.TokenValidationParameters = tokenValidationParams;
                 });
 
             services.AddMvc(opt =>

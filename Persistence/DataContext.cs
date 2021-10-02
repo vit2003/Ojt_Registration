@@ -26,6 +26,7 @@ namespace Persistence
         public virtual DbSet<RecruimentApply> RecruimentApplies { get; set; }
         public virtual DbSet<RecruitmentInformation> RecruitmentInformations { get; set; }
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<RefreshToken> RefreshToken { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
