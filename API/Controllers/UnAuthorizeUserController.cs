@@ -29,17 +29,5 @@ namespace API.Controllers
         {
             return await _mediator.Send(query);
         }
-
-        [HttpGet]
-        [Route("refresh_token/{refresh_token}/{role}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<Account>> ProcessRefreshToken(string refresh_token, int role)
-        {
-            return await _mediator.Send(new ProcessRefreshTokens.Command
-            {
-                RefreshToken = refresh_token,
-                Role = role
-            });
-        }
     }
 }

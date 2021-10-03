@@ -9,6 +9,6 @@ namespace Application.Interface
 {
     public interface IJwtGenerator
     {
-        Task<Account> CreateToken(string email, string name);
+        string CreateToken(string email, string name);
     }
 }

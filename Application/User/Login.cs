@@ -47,10 +47,13 @@ namespace Application.User
                     var curUser = await _context.Students.FirstOrDefaultAsync(x => x.Email == email);
                     if(curUser != null)
                     {
-                        var account = await _jwtGenerator.CreateToken(curUser.Email, curUser.Fullname);
-                        account.Role = request.Role;
-                        account.Code = curUser.StudentCode;
-                        return account;
+                        return new Account
+                        {
+                            Code = curUser.StudentCode,
+                            Name = curUser.Fullname,
+                            Role = request.Role,
+                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname)
+                        };
                     } else
                     {
                         throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
@@ -64,18 +67,24 @@ namespace Application.User
                     }
                     if (curUser != null)
                     {
-                        var account = await _jwtGenerator.CreateToken(curUser.Email, curUser.Fullname);
-                        account.Role = request.Role;
-                        return account;
+                        return new Account
+                        {
+                            Name = curUser.Fullname,
+                            Role = request.Role,
+                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname)
+                        };
                     }
                 } else if (request.Role == 2) //login for role company
                 {
                     var curUser = await _context.Companies.FirstOrDefaultAsync(x => x.Email == email);
                     if(curUser != null)
                     {
-                        var account = await _jwtGenerator.CreateToken(curUser.Email, curUser.Fullname);
-                        account.Role = request.Role;
-                        return account;
+                        return new Account
+                        {
+                            Name = curUser.Fullname,
+                            Role = request.Role,
+                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname)
+                        };
                     }
                     else
                     {

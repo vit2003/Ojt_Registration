@@ -24,7 +24,7 @@ namespace Infrastructure.JWTGenerate
             _configuration = configuration;
             _context = context;
         }
-        public async Task<Account> CreateToken(string email, string name)
+        public string CreateToken(string email, string name)
         {
             var Claims = new List<Claim>
             {
@@ -39,8 +39,7 @@ namespace Infrastructure.JWTGenerate
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(Claims),
-                Expires = DateTime.Now.AddMinutes(int.Parse(_configuration["JWT:MinuteExpired"])),
-                //Expires = DateTime.Now.AddSeconds(10), //add 3 second for test exprise token 
+                Expires = DateTime.Now.AddDays(int.Parse(_configuration["JWT:MinuteExpired"])),
                 SigningCredentials = creds
             };
 
@@ -48,34 +47,8 @@ namespace Infrastructure.JWTGenerate
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            var refreshToken = new RefreshToken()
-            {
-                JwtId = token.Id,
-                IsUsed = false,
-                IsRevorked = false,
-                Email = email,
-                AddDate = DateTime.Now,
-                ExpiryDate = DateTime.Now.AddMonths(6),
-                Token = RandomString(10) + Guid.NewGuid()
-            };
-
-            await _context.RefreshToken.AddAsync(refreshToken);
-            await _context.SaveChangesAsync();
-
-            return new Account
-            {
-                Token = tokenHandler.WriteToken(token),
-                RefreshToken = refreshToken.Token,
-                Name = name,
-            };
+            return tokenHandler.WriteToken(token);
         }
 
-        private string RandomString(int length)
-        {
-            var random = new Random();
-            var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            return new string(Enumerable.Repeat(chars, length)
-                .Select(x => x[random.Next(x.Length)]).ToArray());
-        }
     }
 }
