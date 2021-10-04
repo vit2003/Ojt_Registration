@@ -14,6 +14,8 @@ namespace Domain
         public int? RecruimentInformationId { get; set; }
         public int? StudentId { get; set; }
         public string CoverLetter { get; set; }
+        public string Position { get; set; }
+        public DateTime UpdateDate { get; set; }
         public virtual RecruitmentInformation RecruimentInformation { get; set; }
         public virtual Student Student { get; set; }
     }
