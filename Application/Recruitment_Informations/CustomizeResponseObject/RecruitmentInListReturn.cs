@@ -15,6 +15,5 @@ namespace Application.Recruitment_Informations.CustomizeResponseObject
         public string CompanyName { get; set; }
         public string MajorName { get; set; }
         public string Topic { get; set; }
-        public float GPA { get; set; }
     }
 }
