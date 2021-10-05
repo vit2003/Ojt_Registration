@@ -1,6 +1,7 @@
 ﻿using Application.Recruitment_Informations.CustomizeResponseObject;
 using Domain;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,6 @@ namespace Application.Recruitment_Informations
         {
 
         }
-        //get access to db context
         public class Handler : IRequestHandler<Query, List<RecruitmentInListReturn>>
         {
             private readonly DataContext _context;
@@ -28,40 +28,38 @@ namespace Application.Recruitment_Informations
             }
             public async Task<List<RecruitmentInListReturn>> Handle(Query request, CancellationToken cancellationToken)
             {
+                var list_recruitment = await _context.RecruitmentInformations.Include(x => x.Company).Where(x => x.Deadline >= DateTime.Now).ToListAsync();
+
+                var list_major = await _context.Majors.ToListAsync();
                 List<RecruitmentInListReturn> result = new List<RecruitmentInListReturn>();
-                RecruitmentInListReturn re1 = new RecruitmentInListReturn
+
+                foreach(RecruitmentInformation infor in list_recruitment)
                 {
-                    Id = 1,
-                    Area = "Tp. Hồ Chí Minh",
-                    CompanyName = "Công ty thương mại điện tử Magezon",
-                    Deadline = new DateTime(20 / 09 / 2021),
-                    MajorName = "SE",
-                    Salary = "Thỏa thuận",
-                    Topic = "Thực tập sinh Backend Engineer (PHP/NodeJs/C#/Java/Ruby/Go)"
-                };
-                result.Add(re1);
-                RecruitmentInListReturn re2 = new RecruitmentInListReturn
+                    var recruitment = new RecruitmentInListReturn
+                    {
+                        Area = infor.Area,
+                        CompanyName = infor.Company.CompanyName,
+                        Deadline = infor.Deadline,
+                        Id = infor.Id,
+                        MajorName = getMajorName(list_major, infor.Id),
+                        Salary = infor.Salary,
+                        Topic = infor.Topic
+                    };
+                    result.Add(recruitment);
+                }
+                return result;
+            }
+            private string getMajorName(List<Major> list, int id)
+            {
+                string result = "";
+                foreach (Major major in list)
                 {
-                    Id = 2,
-                    Area = "Quận 9",
-                    CompanyName = "Công ty thương mại điện tử Magezon",
-                    Deadline = new DateTime(25 / 09 / 2021),
-                    MajorName = "Ai",
-                    Salary = "Thỏa thuận",
-                    Topic = "Thực tập sinh Python"
-                };
-                result.Add(re2);
-                RecruitmentInListReturn re3 = new RecruitmentInListReturn
-                {
-                    Id = 3,
-                    Area = "Tp. Hồ Chí Minh",
-                    CompanyName = "CÔNG TY TNHH MONEY FORWARD VIỆT NAM",
-                    Deadline = new DateTime(30 / 09 / 2021),
-                    MajorName = "SS",
-                    Salary = "Thỏa thuận",
-                    Topic = "Nhân viên bán hàng"
-                };
-                result.Add(re3);
+                    if (major.Id == id)
+                    {
+                        result = major.MajorName;
+                        break;
+                    }
+                }
                 return result;
             }
         }

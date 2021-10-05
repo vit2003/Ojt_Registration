@@ -17,7 +17,7 @@ namespace Domain
         public DateTime? Deadline { get; set; }
         public string Salary { get; set; }
         public int? CompanyId { get; set; }
-        public int? MajorId { get; set; }
+        public int MajorId { get; set; }
         public string Topic { get; set; }
         public string Area { get; set; }
         public virtual Company Company { get; set; }
