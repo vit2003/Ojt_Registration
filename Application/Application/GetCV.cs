@@ -14,7 +14,7 @@ namespace Application.Application
     {
         public class Query : IRequest<Byte>
         {
-            public int Id { get; set; }
+            public string StudentCode { get; set; }
         }
         //get access to db context
         public class Handler : IRequestHandler<Query, Byte>
@@ -27,7 +27,7 @@ namespace Application.Application
             }
             public async Task<Byte> Handle(Query request, CancellationToken cancellationToken)
             {
-                var application = await _context.RecruimentApplies.FirstOrDefaultAsync(x => x.Id == request.Id);
+                var application = await _context.RecruimentApplies.Include(x => x.Student).FirstOrDefaultAsync(x => x.Student.StudentCode == request.StudentCode);
 
                 return application.Cv;
             }
