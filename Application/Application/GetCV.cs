@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Application.Error;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
@@ -28,6 +29,11 @@ namespace Application.Application
             public async Task<Byte> Handle(Query request, CancellationToken cancellationToken)
             {
                 var application = await _context.RecruimentApplies.Include(x => x.Student).FirstOrDefaultAsync(x => x.Student.StudentCode == request.StudentCode);
+
+                if(application == null)
+                {
+                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No CV matches with student code");
+                }
 
                 return application.Cv;
             }
