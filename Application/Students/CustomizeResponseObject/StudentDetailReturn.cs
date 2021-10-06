@@ -16,5 +16,6 @@ namespace Application.Students.CustomizeResponseObject
         public string Phone { get; set; }
         public string Gender { get; set; }
         public string Email { get; set; }
+        public double? Gpa { get; set; }
     }
 }
