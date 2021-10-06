@@ -31,11 +31,10 @@ namespace API.Controllers
         {
             return await _mediator.Send(command);
         }
-        [HttpGet("CV/{id}")]
-        [AllowAnonymous]
-        public async Task<ActionResult<Byte>> GetCV(int id)
+        [HttpGet("CV/{StudentCode}")]
+        public async Task<ActionResult<Byte>> GetCV(string StudentCode)
         {
-            return await _mediator.Send(new GetCV.Query { Id = id });
+            return await _mediator.Send(new GetCV.Query { StudentCode = StudentCode });
         }
     }
 }
