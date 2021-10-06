@@ -19,6 +19,7 @@ namespace Domain
         public int? CompanyId { get; set; }
         public int MajorId { get; set; }
         public string Topic { get; set; }
+        public string Position { get; set; }
         public string Area { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<RecruimentApply> RecruimentApplies { get; set; }

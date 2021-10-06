@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using Domain;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
 using System.Collections.Generic;
@@ -31,7 +33,23 @@ namespace Application.Application
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                //handler logic
+                var recruitment_information = await _context.RecruitmentInformations.FirstOrDefaultAsync(x => x.Id == request.RecruimentInformationId);
+
+                var student_apply = await _context.Students.FirstOrDefaultAsync(x => x.StudentCode == request.StudentCode);
+
+                var application = new RecruimentApply
+                {
+                    CoverLetter = request.CoverLetter,
+                    Cv = request.Cv,
+                    RegistrationDate = DateTime.UtcNow,
+                    UpdateDate = DateTime.UtcNow,
+                    Status = "Processing",
+                    RecruimentInformationId = request.RecruimentInformationId,
+                    StudentId = student_apply.Id,
+                    RecruimentInformation = recruitment_information,
+                    Student = student_apply,
+                };
+                _context.RecruimentApplies.Add(application);
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success)
                 {

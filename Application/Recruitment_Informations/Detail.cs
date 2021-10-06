@@ -48,6 +48,7 @@ namespace Application.Recruitment_Informations
                     Deadline = information_detail.Deadline,
                     id = information_detail.Id,
                     MajorName = major.MajorName,
+                    Position = information_detail.Position,
                     Salary = information_detail.Salary
                 };
             }
