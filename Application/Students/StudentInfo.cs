@@ -34,7 +34,7 @@ namespace Application.Students
 
                 if(student == null)
                 {
-                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No student matches with the student code");
+                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No student matches with the student code "+request.StudentCode);
                 }
 
                 return new StudentDetailReturn
@@ -46,7 +46,8 @@ namespace Application.Students
                     Gender = student.Gender,
                     Phone = student.Phone,
                     StuCode = student.StudentCode,
-                    Term = student.Term
+                    Term = student.Term,
+                    Gpa = student.Gpa
                 };
             }
         }

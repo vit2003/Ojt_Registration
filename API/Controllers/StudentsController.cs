@@ -23,11 +23,11 @@ namespace API.Controllers
         }
 
         [HttpGet("{Code}")]
-        public async Task<ActionResult<StudentDetailReturn>> StudentInfo(string code)
+        public async Task<ActionResult<StudentDetailReturn>> StudentInfo(string Code)
         {
             return await _mediator.Send(new StudentInfo.Query
             {
-                StudentCode = code
+                StudentCode = Code
             });
         }
     }
