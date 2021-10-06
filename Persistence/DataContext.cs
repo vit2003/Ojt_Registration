@@ -179,6 +179,10 @@ namespace Persistence
                     .HasColumnType("ntext")
                     .HasColumnName("cover_letter");
 
+                entity.Property(e => e.UpdateDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("update_date");
+
                 entity.HasOne(d => d.RecruimentInformation)
                     .WithMany(p => p.RecruimentApplies)
                     .HasForeignKey(d => d.RecruimentInformationId)
