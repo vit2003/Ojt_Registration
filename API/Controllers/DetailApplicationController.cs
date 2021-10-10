@@ -1,7 +1,6 @@
 ﻿using Application.Application;
 using Application.Application.CustomizeResponseObject;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,26 +10,30 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Route("applications")]
+    [Route("detailapplications")]
     [ApiController]
-    public class ApplicationController : ControllerBase
+    public class DetailApplicationController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public ApplicationController(IMediator mediator)
+        public DetailApplicationController(IMediator mediator)
         {
             _mediator = mediator;
         }
+
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<List<ApplicationInList>>> List()
+        public async Task<List<ApplicationInList>> DetailApp()
         {
             return await _mediator.Send(new ListApp.Query());
         }
-        [HttpPost]
-        public async Task<ActionResult<Unit>> NewApplication(NewApplication.Command command)
+
+        [HttpGet("{id}")]
+        public async Task<DetailApplication> Details(string id)
         {
-            return await _mediator.Send(command);
+            return await _mediator.Send(new DetailApply.Query
+            {
+                Id = int.Parse(id)
+            }); ;
         }
     }
 }
