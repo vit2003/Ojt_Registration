@@ -23,7 +23,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Use for all role
+        ///All role
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>

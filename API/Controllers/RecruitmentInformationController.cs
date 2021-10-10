@@ -23,9 +23,9 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Use for role: Student
+        /// Role: Student
         /// </summary>
-        /// <returns></returns>
+        /// <returns>list of recruitment</returns>
         [HttpGet]
         public async Task<List<RecruitmentInListReturn>> ListRecruitment()
         {
@@ -33,17 +33,31 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Use for role: Student, Company
+        /// Role: Student, Company (get detail of recruitment)
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Id is returned in get list function (id NOT companyId)</param>
+        /// <returns>Details of recruitment information follow the input id</returns>
         [HttpGet("{id}")]
-        public async Task<InformationDetail> Details(string id)
+        public async Task<ActionResult<InformationDetail>> Details(string id)
         {
             return await _mediator.Send(new Detail.Query
             {
                 Id = int.Parse(id)
             }); ;
+        }
+
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <param name="name">fullname of employee is returned when company login success</param>
+        /// <returns></returns>
+        [HttpGet("Company/{name}")]
+        public async Task<ActionResult<List<RecruitmentInListReturn>>> RecruitmentOfComany(string name)
+        {
+            return await _mediator.Send(new GetRecruitmentCompany.Query
+            {
+                Name = name
+            });
         }
     }
 }

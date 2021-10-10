@@ -21,7 +21,7 @@ namespace API.Controllers
             this.mediator = mediator;
         }
         /// <summary>
-        /// Use for Role: FPT Staff
+        /// Role: FPT Staff
         /// </summary>
         /// <returns></returns>
         [HttpGet]

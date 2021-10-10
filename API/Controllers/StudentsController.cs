@@ -23,9 +23,9 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Use for role: Student
+        /// Role: Student
         /// </summary>
-        /// <param name="Code"></param>
+        /// <param name="Code">Code is return when student login success</param>
         /// <returns></returns>
         [HttpGet("{Code}")]
         public async Task<ActionResult<StudentDetailReturn>> StudentInfo(string Code)
