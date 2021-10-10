@@ -21,20 +21,20 @@ namespace API.Controllers
         {
             _mediator = mediator;
         }
-        [HttpGet]
-        public async Task<ActionResult<List<ApplicationInList>>> List()
-        {
-            return await _mediator.Send(new List.Query());
-        }
-        [HttpPost]
-        public async Task<ActionResult<Unit>> NewApplication(NewApplication.Command command)
-        {
-            return await _mediator.Send(command);
-        }
-        [HttpGet("CV/{StudentCode}")]
-        public async Task<ActionResult<Byte>> GetCV(string StudentCode)
-        {
-            return await _mediator.Send(new GetCV.Query { StudentCode = StudentCode });
-        }
+        //[HttpGet]
+        //public async Task<ActionResult<List<ApplicationInList>>> List()
+        //{
+        //    return await _mediator.Send(new List.Query());
+        //}
+        //[HttpPost]
+        //public async Task<ActionResult<Unit>> NewApplication(NewApplication.Command command)
+        //{
+        //    return await _mediator.Send(command);
+        //}
+        //[HttpGet("CV/{StudentCode}")]
+        //public async Task<ActionResult<Byte>> GetCV(string StudentCode)
+        //{
+        //    return await _mediator.Send(new GetCV.Query { StudentCode = StudentCode });
+        //}
     }
 }
