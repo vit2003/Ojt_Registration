@@ -23,7 +23,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Use for role: Student, Company
+        /// Use for role: Student
         /// </summary>
         /// <returns></returns>
         [HttpGet]
