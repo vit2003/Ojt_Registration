@@ -20,6 +20,10 @@ namespace API.Controllers
         {
             this.mediator = mediator;
         }
+        /// <summary>
+        /// Use for Role: FPT Staff
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<List<ReportDetailInList>>> ReportDetail()
         {

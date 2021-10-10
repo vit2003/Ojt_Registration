@@ -22,12 +22,21 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Use for role: Student, Company
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<List<RecruitmentInListReturn>> ListRecruitment()
         {
             return await _mediator.Send(new ListRecruitment.Query());
         }
 
+        /// <summary>
+        /// Use for role: Student, Company
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<InformationDetail> Details(string id)
         {

@@ -18,6 +18,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace API
@@ -48,12 +51,6 @@ namespace API
                     builder => builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader());
-            });
-
-            //show swagger UI services
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
             });
 
             //Link to Database services
@@ -94,6 +91,21 @@ namespace API
             //    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             //    opt.Filters.Add(new AuthorizeFilter(policy));
             //});
+
+            //add services note in parameter in swagger
+            services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Ojt_Registration API",
+                        Description = "For get information of ojt-registration app",
+                        Version = "v1.0"
+                    });
+                var fileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var path = Path.Combine(AppContext.BaseDirectory, fileName);
+                opt.IncludeXmlComments(path);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,7 +124,7 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ojt-Registration"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ojt_Registration API"));
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

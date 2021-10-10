@@ -22,6 +22,11 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Use for role: Student
+        /// </summary>
+        /// <param name="Code"></param>
+        /// <returns></returns>
         [HttpGet("{Code}")]
         public async Task<ActionResult<StudentDetailReturn>> StudentInfo(string Code)
         {
