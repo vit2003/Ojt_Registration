@@ -1,5 +1,4 @@
-﻿using Application.Error;
-using MediatR;
+﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
@@ -11,13 +10,14 @@ using System.Threading.Tasks;
 
 namespace Application.Application
 {
-    public class GetCV
+    public class AddNewCv
     {
-        public class Query : IRequest<string>
+        public class Command : IRequest
         {
+            public string Cv { get; set; } 
         }
-        //get access to db context
-        public class Handler : IRequestHandler<Query, string>
+
+        public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
 
@@ -25,16 +25,20 @@ namespace Application.Application
             {
                 _context = context;
             }
-            public async Task<string> Handle(Query request, CancellationToken cancellationToken)
+
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var application = await _context.RecruimentApplies.Include(x => x.Student).FirstOrDefaultAsync(x => x.Student.StudentCode == "SE130092");
-
-                if(application == null)
+                //add cv to application
+                application.Cv = request.Cv;
+                //update context
+                _context.RecruimentApplies.Update(application);
+                var success = await _context.SaveChangesAsync() > 0;
+                if (success)
                 {
-                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No CV matches with student code");
+                    return Unit.Value;
                 }
-
-                return application.Cv;
+                throw new Exception("Problem save changes");
             }
         }
     }

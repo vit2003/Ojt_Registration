@@ -160,7 +160,7 @@ namespace Persistence
 
                 entity.Property(e => e.Cv)
                     .IsRequired()
-                    .HasColumnType("varbinary(MAX)")
+                    .HasColumnType("varchar(MAX)")
                     .HasColumnName("cv");
 
                 entity.Property(e => e.RecruimentInformationId).HasColumnName("recruiment_information_id");

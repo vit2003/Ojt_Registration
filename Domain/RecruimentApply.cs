@@ -8,7 +8,7 @@ namespace Domain
     public partial class RecruimentApply
     {
         public int Id { get; set; }
-        public Byte Cv { get; set; }
+        public string Cv { get; set; }
         public DateTime? RegistrationDate { get; set; }
         public string Status { get; set; }
         public int? RecruimentInformationId { get; set; }

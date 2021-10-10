@@ -31,10 +31,26 @@ namespace API.Controllers
         //{
         //    return await _mediator.Send(command);
         //}
-        //[HttpGet("CV/{StudentCode}")]
-        //public async Task<ActionResult<Byte>> GetCV(string StudentCode)
-        //{
-        //    return await _mediator.Send(new GetCV.Query { StudentCode = StudentCode });
-        //}
+
+        /// <summary>
+        /// Get cái CV vừa add
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("CV")]
+        public async Task<ActionResult<string>> GetCV()
+        {
+            return await _mediator.Send(new GetCV.Query());
+        }
+
+        /// <summary>
+        /// Để Tú test add CV
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost("cv")]
+        public async Task<ActionResult<Unit>> AddNewCv([FromBody]AddNewCv.Command command)
+        {
+            return await _mediator.Send(command);
+        }
     }
 }

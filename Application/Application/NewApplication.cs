@@ -15,7 +15,7 @@ namespace Application.Application
     {
         public class Command : IRequest
         {
-            public Byte Cv { get; set; }
+            public string Cv { get; set; }
             public int? RecruimentInformationId { get; set; }
             public string StudentCode { get; set; }
             public string StudentName { get; set; }
