@@ -26,18 +26,24 @@ namespace API.Controllers
         //{
         //    return await _mediator.Send(new List.Query());
         //}
-        //[HttpPost]
-        //public async Task<ActionResult<Unit>> NewApplication(NewApplication.Command command)
-        //{
-        //    return await _mediator.Send(command);
-        //}
+
+        /// <summary>
+        /// Role: Student
+        /// </summary>
+        /// <param name="command">Application:</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ActionResult<Unit>> NewApplication(NewApplication.Command command)
+        {
+            return await _mediator.Send(command);
+        }
 
         /// <summary>
         /// Get cái CV vừa add
         /// </summary>
         /// <returns></returns>
         [HttpGet("CV")]
-        public async Task<ActionResult<string>> GetCV()
+        public async Task<ActionResult<Byte>> GetCV()
         {
             return await _mediator.Send(new GetCV.Query());
         }
@@ -45,12 +51,12 @@ namespace API.Controllers
         /// <summary>
         /// Để Tú test add CV
         /// </summary>
-        /// <param name="command"></param>
+        /// <param name="cv"></param>
         /// <returns></returns>
         [HttpPost("cv")]
-        public async Task<ActionResult<Unit>> AddNewCv([FromBody]AddNewCv.Command command)
+        public async Task<ActionResult<Unit>> AddNewCv(string cv)
         {
-            return await _mediator.Send(command);
+            return await _mediator.Send(new AddNewCv.Command {Cv = cv});
         }
     }
 }

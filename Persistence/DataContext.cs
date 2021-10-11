@@ -159,7 +159,6 @@ namespace Persistence
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Cv)
-                    .IsRequired()
                     .HasColumnType("varchar(MAX)")
                     .HasColumnName("cv");
 

@@ -13,11 +13,11 @@ namespace Application.Application
 {
     public class GetCV
     {
-        public class Query : IRequest<string>
+        public class Query : IRequest<Byte>
         {
         }
         //get access to db context
-        public class Handler : IRequestHandler<Query, string>
+        public class Handler : IRequestHandler<Query, Byte>
         {
             private readonly DataContext _context;
 
@@ -25,7 +25,7 @@ namespace Application.Application
             {
                 _context = context;
             }
-            public async Task<string> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Byte> Handle(Query request, CancellationToken cancellationToken)
             {
                 var application = await _context.RecruimentApplies.Include(x => x.Student).FirstOrDefaultAsync(x => x.Student.StudentCode == "SE130092");
 
@@ -34,7 +34,7 @@ namespace Application.Application
                     throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No CV matches with student code");
                 }
 
-                return application.Cv;
+                return Byte.Parse(application.Cv);
             }
         }
     }

@@ -28,7 +28,7 @@ namespace Application.Application
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var application = await _context.RecruimentApplies.Include(x => x.Student).FirstOrDefaultAsync(x => x.Student.StudentCode == "SE130092");
+                var application = await _context.RecruimentApplies.Include(x => x.Student).FirstOrDefaultAsync(x => x.Student.StudentCode.Trim() == "SE130092");
                 //add cv to application
                 application.Cv = request.Cv;
                 //update context
