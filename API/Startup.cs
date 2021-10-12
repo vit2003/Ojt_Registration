@@ -135,13 +135,6 @@ namespace API
 
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ojt_Registration API"));
 
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(
-           Path.Combine(env.ContentRootPath+"/API/", "Cv")),
-                RequestPath = "/Cv"
-            });
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
