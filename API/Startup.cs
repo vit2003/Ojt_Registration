@@ -138,7 +138,7 @@ namespace API
             {
                 FileProvider = new PhysicalFileProvider(
            Path.Combine(env.ContentRootPath, "Cv")),
-                RequestPath = "/Cv"
+                RequestPath = "/Api/Cv"
             });
 
             app.UseEndpoints(endpoints =>
