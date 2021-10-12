@@ -138,7 +138,7 @@ namespace API
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-           Path.Combine(env.ContentRootPath+"Api/", "Cv")),
+           Path.Combine(env.ContentRootPath, "/Cv")),
                 RequestPath = "/Cv"
             });
 
