@@ -1,8 +1,10 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,7 +16,8 @@ namespace Application.Application
     {
         public class Command : IRequest
         {
-            public string Cv { get; set; } 
+            public IFormFile Cv { get; set; }
+            public string FileName { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -28,9 +31,20 @@ namespace Application.Application
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                //Process to save file:
+                string fileName = request.FileName;
+                if(request.Cv == null)
+                {
+                    throw new Exception("File not selected");
+                }
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "Cv" ,fileName+".pdf");
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await request.Cv.CopyToAsync(stream);
+                }
                 var application = await _context.RecruimentApplies.Include(x => x.Student).FirstOrDefaultAsync(x => x.Student.StudentCode.Trim() == "SE130092");
                 //add cv to application
-                application.Cv = request.Cv;
+                application.Cv = fileName;
                 //update context
                 _context.RecruimentApplies.Update(application);
                 var success = await _context.SaveChangesAsync() > 0;

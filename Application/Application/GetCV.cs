@@ -1,9 +1,9 @@
 ﻿using Application.Error;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -11,13 +11,14 @@ using System.Threading.Tasks;
 
 namespace Application.Application
 {
-    public class GetCV
+    public class GetCv
     {
-        public class Query : IRequest<Byte>
+        public class Query : IRequest<string>
         {
+            public string FileName { get; set; }
         }
         //get access to db context
-        public class Handler : IRequestHandler<Query, Byte>
+        public class Handler : IRequestHandler<Query, string>
         {
             private readonly DataContext _context;
 
@@ -25,16 +26,15 @@ namespace Application.Application
             {
                 _context = context;
             }
-            public async Task<Byte> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<string> Handle(Query request, CancellationToken cancellationToken)
             {
-                var application = await _context.RecruimentApplies.Include(x => x.Student).FirstOrDefaultAsync(x => x.Student.StudentCode == "SE130092");
-
-                if(application == null)
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "Cv", request.FileName + ".pdf");
+                if(path == null)
                 {
-                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No CV matches with student code");
+                    throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "Could't find Cv file");
                 }
-
-                return Byte.Parse(application.Cv);
+                return "https://ojt-registration.herokuapp.com/Cv/"+request.FileName+".pdf";
+                //return "https://localhost:44399/Cv/" + request.FileName + ".pdf";
             }
         }
     }

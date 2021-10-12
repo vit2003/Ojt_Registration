@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Persistence;
@@ -106,6 +107,9 @@ namespace API
                 var path = Path.Combine(AppContext.BaseDirectory, fileName);
                 opt.IncludeXmlComments(path);
             });
+
+            //add services process pdf file
+            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(AppDomain.CurrentDomain.BaseDirectory)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -125,10 +129,19 @@ namespace API
             app.UseAuthorization();
 
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ojt_Registration API"));
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(
+           Path.Combine(env.ContentRootPath, "Cv")),
+                RequestPath = "/Cv"
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

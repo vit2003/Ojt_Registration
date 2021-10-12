@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -39,24 +40,26 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Get cái CV vừa add
+        /// Get Cv follow file name
         /// </summary>
+        /// <param name="fileName">File name (cái mà lúc tạo truyền vào)</param>
         /// <returns></returns>
-        [HttpGet("CV")]
-        public async Task<ActionResult<Byte>> GetCV()
+        [HttpGet("CV/{fileName}")]
+        public async Task<ActionResult<string>> GetCV(string fileName)
         {
-            return await _mediator.Send(new GetCV.Query());
+            return await _mediator.Send(new GetCv.Query { FileName = fileName });
         }
 
         /// <summary>
-        /// Để Tú test add CV
+        /// Test Add Cv
         /// </summary>
-        /// <param name="cv"></param>
+        /// <param name="cv">File Cv</param>
+        /// <param name="fileName">Tên của file để tí get</param>
         /// <returns></returns>
-        [HttpPost("cv")]
-        public async Task<ActionResult<Unit>> AddNewCv(string cv)
+        [HttpPost("cv/{fileName}")]
+        public async Task<ActionResult<Unit>> AddNewCv(IFormFile cv, string fileName)
         {
-            return await _mediator.Send(new AddNewCv.Command {Cv = cv});
+            return await _mediator.Send(new AddNewCv.Command { Cv = cv, FileName = fileName });
         }
     }
 }
