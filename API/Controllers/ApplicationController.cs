@@ -22,11 +22,16 @@ namespace API.Controllers
         {
             _mediator = mediator;
         }
-        //[HttpGet]
-        //public async Task<ActionResult<List<ApplicationInList>>> List()
-        //{
-        //    return await _mediator.Send(new List.Query());
-        //}
+
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ActionResult<List<ApplicationInList>>> List()
+        {
+            return await _mediator.Send(new List.Query());
+        }
 
         /// <summary>
         /// Role: Student
@@ -39,27 +44,13 @@ namespace API.Controllers
             return await _mediator.Send(command);
         }
 
-        /// <summary>
-        /// Get Cv follow file name
-        /// </summary>
-        /// <param name="fileName">File name (cái mà lúc tạo truyền vào)</param>
-        /// <returns></returns>
-        [HttpGet("CV/{fileName}")]
-        public async Task<ActionResult<string>> GetCV(string fileName)
+        [HttpGet("{id}")]
+        public async Task<DetailApplication> Details(string id)
         {
-            return await _mediator.Send(new GetCv.Query { FileName = fileName });
-        }
-
-        /// <summary>
-        /// Test Add Cv
-        /// </summary>
-        /// <param name="cv">File Cv</param>
-        /// <param name="fileName">Tên của file để tí get</param>
-        /// <returns></returns>
-        [HttpPost("cv/{fileName}")]
-        public async Task<ActionResult<Unit>> AddNewCv(IFormFile cv, string fileName)
-        {
-            return await _mediator.Send(new AddNewCv.Command { Cv = cv, FileName = fileName });
+            return await _mediator.Send(new DetailApply.Query
+            {
+                Id = int.Parse(id)
+            }); ;
         }
     }
 }
