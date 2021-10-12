@@ -125,6 +125,7 @@ namespace API
             //app.UseDeveloperExceptionPage();
             app.UseSwagger();
 
+
             app.UseRouting();
 
             app.UseCors("AllowAllOrigins");
@@ -137,8 +138,8 @@ namespace API
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(
-           Path.Combine(env.ContentRootPath, "Cv")),
-                RequestPath = "/Api/Cv"
+           Path.Combine(env.ContentRootPath+"Api/", "Cv")),
+                RequestPath = "/Cv"
             });
 
             app.UseEndpoints(endpoints =>
