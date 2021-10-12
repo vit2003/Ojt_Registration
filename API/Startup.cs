@@ -110,6 +110,12 @@ namespace API
 
             //add services process pdf file
             services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(AppDomain.CurrentDomain.BaseDirectory)));
+
+            //redirect service
+            services.AddHttpsRedirection(opt =>
+            {
+                opt.HttpsPort = 5001;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
