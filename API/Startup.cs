@@ -125,8 +125,6 @@ namespace API
             //app.UseDeveloperExceptionPage();
             app.UseSwagger();
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseCors("AllowAllOrigins");
