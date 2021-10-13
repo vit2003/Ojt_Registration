@@ -70,8 +70,7 @@ namespace API.Controllers
         [HttpPost("Cv/{StudentCode}")]
         public async Task<ActionResult<string>> SaveCvToFirebase(IFormFile CvFile, string StudentCode)
         {
-            await _pdfFileSupport.SaveFileToServer(CvFile, StudentCode);
-            return await _pdfFileSupport.UploadFileToFirebase(StudentCode);
+            return await _pdfFileSupport.UploadFileToFirebase(CvFile, StudentCode);
         }
     }
 }

@@ -22,24 +22,10 @@ namespace Infrastructure.PdfSupport
             _configuration = configuration;
         }
 
-        public async Task SaveFileToServer(IFormFile file, string studentCode)
+        public async Task<string> UploadFileToFirebase(IFormFile file, string studentCode)
         {
-            if (file == null)
-            {
-                throw new Exception("File not selected");
-            }
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Cv", studentCode + "_CV.pdf");
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-        }
-
-        public async Task<string> UploadFileToFirebase(string studentCode)
-        {
-            //open saved file
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "Cv", studentCode + "_CV.pdf");
-            var stream = File.Open(path, FileMode.Open);
+            //parse file to stream
+            var stream = file.OpenReadStream();
 
             //connect to firebase
             var auth = new FirebaseAuthProvider(new FirebaseConfig(_configuration["Firebase:apiKey"]));
