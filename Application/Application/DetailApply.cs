@@ -37,6 +37,7 @@ namespace Application.Application
                 }
                 return new DetailApplication
                 {
+                    Id = request.Id,
                     Fullname = apply_detail.Student.Fullname,
                     StudentCode = apply_detail.Student.StudentCode,
                     Email = apply_detail.Student.Email,

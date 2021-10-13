@@ -1,5 +1,6 @@
 ﻿using Application.Application;
 using Application.Application.CustomizeResponseObject;
+using Application.Interface;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,10 +18,12 @@ namespace API.Controllers
     public class ApplicationController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IPdfFileSupport _pdfFileSupport;
 
-        public ApplicationController(IMediator mediator)
+        public ApplicationController(IMediator mediator, IPdfFileSupport pdfFileSupport)
         {
             _mediator = mediator;
+            _pdfFileSupport = pdfFileSupport;
         }
 
         /// <summary>
@@ -39,11 +42,16 @@ namespace API.Controllers
         /// <param name="command">Application:</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Unit>> NewApplication(NewApplication.Command command)
+        public async Task<ActionResult<Unit>> NewApplication([FromBody]NewApplication.Command command)
         {
             return await _mediator.Send(command);
         }
 
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <param name="id">Id is return in list application</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<DetailApplication> Details(string id)
         {
@@ -51,6 +59,19 @@ namespace API.Controllers
             {
                 Id = int.Parse(id)
             }); ;
+        }
+
+        /// <summary>
+        /// Role: Student
+        /// </summary>
+        /// <param name="CvFile">File Cv</param>
+        /// <param name="StudentCode">Student code</param>
+        /// <returns></returns>
+        [HttpPost("Cv/{StudentCode}")]
+        public async Task<ActionResult<string>> SaveCvToFirebase(IFormFile CvFile, string StudentCode)
+        {
+            await _pdfFileSupport.SaveFileToServer(CvFile, StudentCode);
+            return await _pdfFileSupport.UploadFileToFirebase(StudentCode);
         }
     }
 }

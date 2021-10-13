@@ -1,4 +1,5 @@
-﻿using Domain;
+﻿using Application.Interface;
+using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace Application.Application
     {
         public class Command : IRequest
         {
-            public IFormFile Cv { get; set; }
+            public string Cv { get; set; }
             public int? RecruimentInformationId { get; set; }
             public string StudentCode { get; set; }
             public string StudentName { get; set; }
@@ -27,10 +28,12 @@ namespace Application.Application
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
+            private readonly IPdfFileSupport _pdfFileSupport;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IPdfFileSupport pdfFileSupport)
             {
                 _context = context;
+                _pdfFileSupport = pdfFileSupport;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
@@ -40,22 +43,10 @@ namespace Application.Application
 
                 var student_apply = await _context.Students.FirstOrDefaultAsync(x => x.StudentCode == request.StudentCode);
 
-                //Save Cv file
-                string fileName = student_apply.StudentCode+"_Cv";
-                if (request.Cv == null)
-                {
-                    throw new Exception("File not selected");
-                }
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "Cv", fileName + ".pdf");
-                using (var stream = new FileStream(path, FileMode.Create))
-                {
-                    await request.Cv.CopyToAsync(stream);
-                }
-
                 var application = new RecruimentApply
                 {
                     CoverLetter = request.CoverLetter,
-                    Cv = fileName,
+                    Cv = request.Cv,
                     RegistrationDate = DateTime.UtcNow,
                     UpdateDate = DateTime.UtcNow,
                     Status = "Processing",
