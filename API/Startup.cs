@@ -89,11 +89,11 @@ namespace API
                     opt.TokenValidationParameters = tokenValidationParams;
                 });
 
-            services.AddMvc(opt =>
-            {
-                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-                opt.Filters.Add(new AuthorizeFilter(policy));
-            });
+            //services.AddMvc(opt =>
+            //{
+            //    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            //    opt.Filters.Add(new AuthorizeFilter(policy));
+            //});
 
             //add services note in parameter in swagger
             services.AddSwaggerGen(opt =>
