@@ -8,8 +8,10 @@ using Infrastructure.JWTGenerate;
 using Infrastructure.PdfSupport;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -87,11 +89,11 @@ namespace API
                     opt.TokenValidationParameters = tokenValidationParams;
                 });
 
-            //services.AddMvc(opt =>
-            //{
-            //    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-            //    opt.Filters.Add(new AuthorizeFilter(policy));
-            //});
+            services.AddMvc(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            });
 
             //add services note in parameter in swagger
             services.AddSwaggerGen(opt =>
