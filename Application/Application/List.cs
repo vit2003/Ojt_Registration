@@ -16,7 +16,7 @@ namespace Application.Application
     {
         public class Query : IRequest<List<ApplicationInList>>
         {
-
+            public string StaffCode { get; set; }
         }
         //get access to db context
         public class Handler : IRequestHandler<Query, List<ApplicationInList>>
@@ -29,7 +29,13 @@ namespace Application.Application
             }
             public async Task<List<ApplicationInList>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var application_list = await _context.RecruimentApplies.Include(x => x.Student).Where(x => x.RegistrationDate > DateTime.UtcNow.AddMonths(-4)).ToListAsync();
+                var application_list = await _context
+                    .RecruimentApplies
+                    .Include(x => x.Student)
+                    .Include(x => x.RecruimentInformation)
+                    .ThenInclude(x => x.Company)
+                    .Where(x => x.RegistrationDate > DateTime.UtcNow.AddMonths(-4) && x.RecruimentInformation.Company.Code == request.StaffCode)
+                    .ToListAsync();
 
                 if (application_list == null)
                 {

@@ -29,11 +29,13 @@ namespace API.Controllers
         /// <summary>
         /// Role: Company
         /// </summary>
+        /// <param name="CompanyStaffCode">Staffcode is return in login function</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<ApplicationInList>>> List()
+        [Route("{CompanyStaffCode}")]
+        public async Task<ActionResult<List<ApplicationInList>>> List(string CompanyStaffCode)
         {
-            return await _mediator.Send(new List.Query());
+            return await _mediator.Send(new List.Query { StaffCode = CompanyStaffCode});
         }
 
         /// <summary>
@@ -42,7 +44,7 @@ namespace API.Controllers
         /// <param name="command">Application:</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<Unit>> NewApplication([FromBody]NewApplication.Command command)
+        public async Task<ActionResult<Unit>> NewApplication([FromBody] NewApplication.Command command)
         {
             return await _mediator.Send(command);
         }
@@ -52,7 +54,8 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id">Id is return in list application</param>
         /// <returns></returns>
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("details/{id}")]
         public async Task<DetailApplication> Details(string id)
         {
             return await _mediator.Send(new DetailApply.Query

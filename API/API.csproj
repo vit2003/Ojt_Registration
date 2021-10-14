@@ -5,6 +5,12 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Cv\**" />
+    <Content Remove="Cv\**" />
+    <EmbeddedResource Remove="Cv\**" />
+    <None Remove="Cv\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Cridentials\GoogleCridential.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -27,9 +33,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Cv\" />
   </ItemGroup>
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

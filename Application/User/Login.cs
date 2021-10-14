@@ -71,7 +71,8 @@ namespace Application.User
                         {
                             Name = curUser.Fullname,
                             Role = request.Role,
-                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname)
+                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname),
+                            Code = curUser.Code
                         };
                     }
                 } else if (request.Role == 2) //login for role company
@@ -83,7 +84,8 @@ namespace Application.User
                         {
                             Name = curUser.Fullname,
                             Role = request.Role,
-                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname)
+                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname),
+                            Code = curUser.Code
                         };
                     }
                     else
