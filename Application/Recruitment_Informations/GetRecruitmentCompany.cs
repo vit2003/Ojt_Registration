@@ -17,7 +17,7 @@ namespace Application.Recruitment_Informations
     {
         public class Query : IRequest<List<RecruitmentInListReturn>>
         {
-            public string Name { get; set; }
+            public string CompanyCode { get; set; }
         }
         //get access to db context
         public class Handler : IRequestHandler<Query, List<RecruitmentInListReturn>>
@@ -41,10 +41,12 @@ namespace Application.Recruitment_Informations
             }
             public async Task<List<RecruitmentInListReturn>> Handle(Query request, CancellationToken cancellationToken)
             {
-                //get company id:
-                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Fullname == request.Name);
                 //get recruitment information of company
-                var list_recruitment = await _context.RecruitmentInformations.Where(x => x.CompanyId == company.Id).ToListAsync();
+                var list_recruitment = await _context
+                    .RecruitmentInformations
+                    .Include(x => x.Company)
+                    .Where(x => x.Company.Code == request.CompanyCode && x.Deadline > DateTime.UtcNow)
+                    .ToListAsync();
                 if(list_recruitment == null)
                 {
                     throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "Your company have no post yet!");
@@ -57,7 +59,7 @@ namespace Application.Recruitment_Informations
                     var recruitmentInList = new RecruitmentInListReturn
                     {
                         Area = recruitment.Area,
-                        CompanyName = company.CompanyName,
+                        CompanyName = recruitment.Company.CompanyName,
                         Deadline = recruitment.Deadline,
                         Id = recruitment.Id,
                         MajorName = getMajorName(major_list, recruitment.MajorId),

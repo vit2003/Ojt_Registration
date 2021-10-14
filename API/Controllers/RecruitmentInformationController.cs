@@ -49,14 +49,14 @@ namespace API.Controllers
         /// <summary>
         /// Role: Company
         /// </summary>
-        /// <param name="name">fullname of employee is returned when company login success</param>
+        /// <param name="Code">Code of employee is returned when company login success</param>
         /// <returns></returns>
-        [HttpGet("Company/{name}")]
-        public async Task<ActionResult<List<RecruitmentInListReturn>>> RecruitmentOfComany(string name)
+        [HttpGet("company/{Code}")]
+        public async Task<ActionResult<List<RecruitmentInListReturn>>> RecruitmentOfComany(string Code)
         {
             return await _mediator.Send(new GetRecruitmentCompany.Query
             {
-                Name = name
+                CompanyCode = Code
             });
         }
     }
