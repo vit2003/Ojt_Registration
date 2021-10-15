@@ -13,8 +13,6 @@ namespace Domain
         public int CompanyId { get; set; }
         public double? Mark { get; set; }
         public int? OnWorkDate { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
         public string Division { get; set; }
         public string LineManagerName { get; set; }
         public DateTime? Public_Date { get; set; }

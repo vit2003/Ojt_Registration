@@ -37,7 +37,8 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id">Id is returned in get list function (id NOT companyId)</param>
         /// <returns>Details of recruitment information follow the input id</returns>
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("detail/{id}")]
         public async Task<ActionResult<InformationDetail>> Details(string id)
         {
             return await _mediator.Send(new Detail.Query

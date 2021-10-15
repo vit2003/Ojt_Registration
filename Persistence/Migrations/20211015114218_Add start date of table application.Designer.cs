@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211015114218_Add start date of table application")]
+    partial class Addstartdateoftableapplication
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,10 +38,12 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
+                        .IsRequired()
                         .HasColumnType("ntext")
                         .HasColumnName("company_name");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("varchar(MAX)")
                         .HasColumnName("email");
 
@@ -118,6 +122,10 @@ namespace Persistence.Migrations
                         .HasColumnType("ntext")
                         .HasColumnName("division");
 
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime")
+                        .HasColumnName("end_date");
+
                     b.Property<string>("LineManagerName")
                         .HasColumnType("ntext")
                         .HasColumnName("line_manager_name");
@@ -133,6 +141,10 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("Public_Date")
                         .HasColumnType("datetime")
                         .HasColumnName("public_date");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime")
+                        .HasColumnName("start_date");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int")
@@ -174,6 +186,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("RegistrationDate")
                         .HasColumnType("datetime")
                         .HasColumnName("registration_date");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
                         .HasColumnType("text")
@@ -299,9 +314,6 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(MAX)")
                         .HasColumnName("email");
 
-                    b.Property<string>("EndDate")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Fullname")
                         .HasColumnType("ntext")
                         .HasColumnName("fullname");
@@ -325,9 +337,6 @@ namespace Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("phone");
 
-                    b.Property<string>("StartDate")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("StudentCode")
                         .HasColumnType("varchar(MAX)")
                         .HasColumnName("student_code");
@@ -335,9 +344,6 @@ namespace Persistence.Migrations
                     b.Property<int?>("Term")
                         .HasColumnType("int")
                         .HasColumnName("term");
-
-                    b.Property<string>("WorkingStatus")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

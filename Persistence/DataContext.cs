@@ -56,12 +56,10 @@ namespace Persistence
                     .HasColumnName("address");
 
                 entity.Property(e => e.CompanyName)
-                    .IsRequired()
                     .HasColumnType("ntext")
                     .HasColumnName("company_name");
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasColumnType("varchar(MAX)")
                     .HasColumnName("email");
 
@@ -113,10 +111,6 @@ namespace Persistence
                     .HasColumnType("ntext")
                     .HasColumnName("division");
 
-                entity.Property(e => e.EndDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("end_date");
-
                 entity.Property(e => e.LineManagerName)
                     .HasColumnType("ntext")
                     .HasColumnName("line_manager_name");
@@ -124,10 +118,6 @@ namespace Persistence
                 entity.Property(e => e.Mark).HasColumnName("mark");
 
                 entity.Property(e => e.OnWorkDate).HasColumnName("on_work_date");
-
-                entity.Property(e => e.StartDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("start_date");
 
                 entity.Property(e => e.StudentId).HasColumnName("student_id");
 

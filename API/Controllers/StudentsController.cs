@@ -27,13 +27,26 @@ namespace API.Controllers
         /// </summary>
         /// <param name="Code">Code is return when student login success</param>
         /// <returns></returns>
-        [HttpGet("{Code}")]
+        [HttpGet]
+        [Route("details/{Code}")]
         public async Task<ActionResult<StudentDetailReturn>> StudentInfo(string Code)
         {
             return await _mediator.Send(new StudentInfo.Query
             {
                 StudentCode = Code
             });
+        }
+
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <param name="CpCode">Code of company staff is returned in login API</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("company/{CpCode}")]
+        public async Task<ActionResult<List<StudentInList>>> StudentInCompany(string CpCode)
+        {
+            return await _mediator.Send(new StudentInCompany.Query { CompanyCode = CpCode });
         }
     }
 }

@@ -26,6 +26,9 @@ namespace Domain
         public string Email { get; set; }
         public string Fullname { get; set; }
         public string Gender { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string WorkingStatus { get; set; }
         public virtual Company Company { get; set; }
         public virtual Major Major { get; set; }
         public virtual ICollection<OjtReports> OjtReports { get; set; }
