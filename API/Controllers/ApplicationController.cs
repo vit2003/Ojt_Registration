@@ -76,6 +76,11 @@ namespace API.Controllers
             return await _pdfFileSupport.UploadFileToFirebase(CvFile, StudentCode);
         }
 
+        /// <summary>
+        /// Role: Student
+        /// </summary>
+        /// <param name="code">Student code is return in Login</param>
+        /// <returns></returns>
         [HttpGet]
         [Route("students/{code}")]
         public async Task<ActionResult<List<SubmittedApplication>>> GetSubmittedApplication(string code)
