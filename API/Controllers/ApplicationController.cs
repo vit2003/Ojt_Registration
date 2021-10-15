@@ -75,5 +75,12 @@ namespace API.Controllers
         {
             return await _pdfFileSupport.UploadFileToFirebase(CvFile, StudentCode);
         }
+
+        [HttpGet]
+        [Route("students/{code}")]
+        public async Task<ActionResult<List<SubmittedApplication>>> GetSubmittedApplication(string code)
+        {
+            return await _mediator.Send(new StudentApplication.Query {StudentCode = code});
+        }
     }
 }
