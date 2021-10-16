@@ -21,6 +21,7 @@ namespace Domain
         public string Topic { get; set; }
         public string Position { get; set; }
         public string Area { get; set; }
+        public bool IsDeleted { get; set; }
         public virtual Company Company { get; set; }
         public virtual ICollection<RecruimentApply> RecruimentApplies { get; set; }
     }

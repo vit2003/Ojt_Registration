@@ -45,9 +45,9 @@ namespace Application.Recruitment_Informations
                 var list_recruitment = await _context
                     .RecruitmentInformations
                     .Include(x => x.Company)
-                    .Where(x => x.Company.Code == request.CompanyCode && x.Deadline > DateTime.UtcNow)
+                    .Where(x => x.Company.Code == request.CompanyCode && x.Deadline > DateTime.UtcNow && x.IsDeleted == false)
                     .ToListAsync();
-                if(list_recruitment == null)
+                if(list_recruitment == null || list_recruitment.Count == 0)
                 {
                     throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "Your company have no post yet!");
                 }

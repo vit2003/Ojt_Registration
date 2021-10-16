@@ -30,7 +30,10 @@ namespace Application.Recruitment_Informations
             }
             public async Task<InformationDetail> Handle(Query request, CancellationToken cancellationToken)
             {
-                var information_detail = await _context.RecruitmentInformations.Include(x => x.Company).FirstOrDefaultAsync(x => x.Id == request.Id);
+                var information_detail = await _context
+                    .RecruitmentInformations
+                    .Include(x => x.Company)
+                    .FirstOrDefaultAsync(x => x.Id == request.Id && x.IsDeleted == false);
 
                 if(information_detail == null)
                 {

@@ -28,7 +28,11 @@ namespace Application.Recruitment_Informations
             }
             public async Task<List<RecruitmentInListReturn>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var list_recruitment = await _context.RecruitmentInformations.Include(x => x.Company).Where(x => x.Deadline >= DateTime.Now).ToListAsync();
+                var list_recruitment = await _context
+                    .RecruitmentInformations
+                    .Include(x => x.Company)
+                    .Where(x => x.Deadline >= DateTime.Now && x.IsDeleted == false)
+                    .ToListAsync();
 
                 var list_major = await _context.Majors.ToListAsync();
                 List<RecruitmentInListReturn> result = new List<RecruitmentInListReturn>();

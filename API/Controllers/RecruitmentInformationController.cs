@@ -60,5 +60,18 @@ namespace API.Controllers
                 CompanyCode = Code
             });
         }
+
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="companyCode"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("{id}/{companyCode}")]
+        public async Task<ActionResult<Unit>> DeleteRecruitmentInformation(int id, string companyCode)
+        {
+            return await _mediator.Send(new DeleteById.Command {Id = id, CompanyCode = companyCode});
+        }
     }
 }
