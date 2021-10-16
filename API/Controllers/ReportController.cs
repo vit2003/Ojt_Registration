@@ -64,5 +64,27 @@ namespace API.Controllers
         {
             return await _mediator.Send(new OjtReportDetail.Query { StudentCode = studentcode });
         }
+
+        /// <summary>
+        /// Role: FPT Staff
+        /// </summary>
+        /// <param name="studentCode">Code of student in detail</param>
+        /// <param name="info">Information to update</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("student/{studentCode}")]
+        public async Task<ActionResult<Unit>> UpdateReport(string studentCode, Update info)
+        {
+            var command = new UpdateReport.Command
+            {
+                Division = info.Division,
+                LineManagerName = info.LineManagerName,
+                Mark = info.Mark,
+                OnWorkDate = info.OnWorkDate,
+                StudentCode = studentCode,
+                WorkSortDescription = info.WorkSortDescription
+            };
+            return await _mediator.Send(command);
+        }
     }
 }
