@@ -51,6 +51,18 @@ namespace API.Controllers
                 WorkSortDescription = request.WorkSortDescription
             };
             return await _mediator.Send(command);
-        } 
+        }
+        
+        /// <summary>
+        /// Role: FPT Staff
+        /// </summary>
+        /// <param name="studentcode">Code of student returned in list report</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("details/{studentcode}")]
+        public async Task<ActionResult<ReportDetail>> GetReportDetail(string studentcode)
+        {
+            return await _mediator.Send(new OjtReportDetail.Query { StudentCode = studentcode });
+        }
     }
 }

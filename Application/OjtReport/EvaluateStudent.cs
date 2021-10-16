@@ -67,6 +67,11 @@ namespace Application.OjtReport
                 };
 
                 _context.OjtReports.Add(report);
+
+                //Update endate of student
+                student.EndDate = DateTime.Now.ToString();
+                _context.Students.Update(student);
+
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success)
                 {
