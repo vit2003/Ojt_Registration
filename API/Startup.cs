@@ -1,5 +1,6 @@
 ﻿using API.Middleware;
 using Application.Interface;
+using Application.OjtReport;
 using Application.Recruitment_Informations;
 using Application.Students;
 using FluentValidation.AspNetCore;
@@ -41,7 +42,7 @@ namespace API
             services.AddControllers()
                 .AddFluentValidation(cfg =>
             {
-                cfg.RegisterValidatorsFromAssemblyContaining<Detail>();
+                cfg.RegisterValidatorsFromAssemblyContaining<EvaluateStudent>();
             });
 
             //add cross origin
