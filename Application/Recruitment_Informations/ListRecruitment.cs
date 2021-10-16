@@ -26,6 +26,17 @@ namespace Application.Recruitment_Informations
             {
                 _context = context;
             }
+            private string getMajorName(List<Major> list, int id)
+            {
+                foreach (Major major in list)
+                {
+                    if (major.Id == id)
+                    {
+                        return major.MajorName;
+                    }
+                }
+                return null;
+            }
             public async Task<List<RecruitmentInListReturn>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var list_recruitment = await _context
@@ -35,7 +46,7 @@ namespace Application.Recruitment_Informations
                     .ToListAsync();
 
                 var list_major = await _context.Majors.ToListAsync();
-                List<RecruitmentInListReturn> result = new List<RecruitmentInListReturn>();
+                var result = new List<RecruitmentInListReturn>();
 
                 foreach(RecruitmentInformation infor in list_recruitment)
                 {
@@ -45,24 +56,11 @@ namespace Application.Recruitment_Informations
                         CompanyName = infor.Company.CompanyName,
                         Deadline = infor.Deadline,
                         Id = infor.Id,
-                        MajorName = getMajorName(list_major, infor.Id),
+                        MajorName = getMajorName(list_major, infor.MajorId),
                         Salary = infor.Salary,
                         Topic = infor.Topic
                     };
                     result.Add(recruitment);
-                }
-                return result;
-            }
-            private string getMajorName(List<Major> list, int id)
-            {
-                string result = "";
-                foreach (Major major in list)
-                {
-                    if (major.Id == id)
-                    {
-                        result = major.MajorName;
-                        break;
-                    }
                 }
                 return result;
             }

@@ -1,5 +1,6 @@
 ﻿using Application.Recruitment_Informations;
 using Application.Recruitment_Informations.CustomizeResponseObject;
+using Application.Recruitment_Informations.RequestObject;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -64,14 +65,30 @@ namespace API.Controllers
         /// <summary>
         /// Role: Company
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="companyCode"></param>
+        /// <param name="id">Id of recruitment information returned in detail</param>
+        /// <param name="companyCode">Code of company returned in login</param>
         /// <returns></returns>
         [HttpDelete]
         [Route("{id}/{companyCode}")]
         public async Task<ActionResult<Unit>> DeleteRecruitmentInformation(int id, string companyCode)
         {
             return await _mediator.Send(new DeleteById.Command {Id = id, CompanyCode = companyCode});
+        }
+
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <param name="information">All information to create new recruitment information</param>
+        /// <param name="companyCode">Code of company returned in login</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("{companyCode}")]
+        public async Task<ActionResult<Unit>> AddNewRecruitmentInformation(AddNew information, string companyCode)
+        {
+            var command = new AddNewInformation.Command();
+            command.Information = information;
+            command.CompanyCode = companyCode;
+            return await _mediator.Send(command);
         }
     }
 }

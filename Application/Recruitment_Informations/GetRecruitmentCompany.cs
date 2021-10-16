@@ -54,6 +54,7 @@ namespace Application.Recruitment_Informations
                 //get list major:
                 var major_list = await _context.Majors.ToListAsync();
                 var result = new List<RecruitmentInListReturn>();
+
                 foreach(RecruitmentInformation recruitment in list_recruitment)
                 {
                     var recruitmentInList = new RecruitmentInListReturn

@@ -95,7 +95,7 @@ namespace Persistence
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.MajorName)
-                    .HasColumnType("ntext")
+                    .HasColumnType("varchar(MAX)")
                     .HasColumnName("major_name");
             });
 
