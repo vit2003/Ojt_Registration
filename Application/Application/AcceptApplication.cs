@@ -42,6 +42,9 @@ namespace Application.Application
                     throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Application not related to your company");
                 }
 
+                if (application.Status == "Rejected")
+                    throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Can't approve the rejected application");
+
                 application.Status = "Approved";
                 application.Student.WorkingStatus = "Working";
 
