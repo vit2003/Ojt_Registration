@@ -46,7 +46,8 @@ namespace Application.Application
                         Status = application.Status,
                         StudentCode = student.StudentCode,
                         StudentName = student.Fullname,
-                        UpdateDate = application.UpdateDate
+                        UpdateDate = application.UpdateDate,
+                        Topic = application.RecruimentInformation.Topic
                     };
                     result.Add(submettedApplication);
                 }
