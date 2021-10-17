@@ -121,5 +121,16 @@ namespace API.Controllers
                 Id = applicationId 
             });
         }
+
+        /// <summary>
+        /// Role: FPT Staff
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("fptstaff")]
+        public async Task<ActionResult<List<StaffViewApplication>>> StaffView()
+        {
+            return await _mediator.Send(new ViewListFptStaff.Query());
+        }
     }
 }

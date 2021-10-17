@@ -46,6 +46,7 @@ namespace Application.Application
                     throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Can't reject the approved application");
 
                 application.Status = "Rejected";
+                application.UpdateDate = DateTime.Now;
                 application.Student.WorkingStatus = "Not in work";
 
                 _context.RecruimentApplies.Update(application);
