@@ -21,18 +21,20 @@ namespace API.Controllers
         {
             _mediator = mediator;
         }
+
         /// <summary>
         /// Role: FPT Staff
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Route("fptstaff")]
         public async Task<ActionResult<List<ReportDetailInList>>> ReportDetail()
         {
             return await _mediator.Send(new ViewOjtReport.Query());
         }
 
         /// <summary>
-        /// Role: FPT Staff
+        /// Role: Company
         /// </summary>
         /// <param name="request">Mark: Greater than 0, Date: Greater than 30, Division: FE,BE,...</param>
         /// <returns></returns>
@@ -54,7 +56,7 @@ namespace API.Controllers
         }
         
         /// <summary>
-        /// Role: FPT Staff
+        /// Role: Company
         /// </summary>
         /// <param name="studentcode">Code of student returned in list report</param>
         /// <returns></returns>
@@ -66,7 +68,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// Role: FPT Staff
+        /// Role: Company
         /// </summary>
         /// <param name="studentCode">Code of student in detail</param>
         /// <param name="info">Information to update</param>

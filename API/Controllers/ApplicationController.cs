@@ -132,5 +132,17 @@ namespace API.Controllers
         {
             return await _mediator.Send(new ViewListFptStaff.Query());
         }
+
+        /// <summary>
+        /// Role: FPT Staff
+        /// </summary>
+        /// <param name="id">Id of application retured in list</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("fptstaff/detail/{id}")]
+        public async Task<ActionResult<DetailApplicationForStaff>> StaffApplicationDetail(int id)
+        {
+            return await _mediator.Send(new StaffDetail.Query { Id = id });
+        }
     }
 }
