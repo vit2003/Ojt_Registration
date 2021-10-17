@@ -87,5 +87,39 @@ namespace API.Controllers
         {
             return await _mediator.Send(new StudentApplication.Query {StudentCode = code});
         }
+
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <param name="companyCode">Code of company is returned in login function</param>
+        /// <param name="applicationId">Id of application returned in list</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("approve/{companyCode}/{applicationId}")]
+        public async Task<ActionResult<Unit>> ApproveApplication(string companyCode, int applicationId)
+        {
+            return await _mediator.Send(new AcceptApplication.Command 
+            { 
+                CompanyCode = companyCode, 
+                Id = applicationId 
+            });
+        }  
+        
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <param name="companyCode">Code of company is returned in login function</param>
+        /// <param name="applicationId">Id of application returned in list</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("reject/{companyCode}/{applicationId}")]
+        public async Task<ActionResult<Unit>> RejectApplication(string companyCode, int applicationId)
+        {
+            return await _mediator.Send(new DenideApplication.Command 
+            { 
+                CompanyCode = companyCode, 
+                Id = applicationId 
+            });
+        }
     }
 }
