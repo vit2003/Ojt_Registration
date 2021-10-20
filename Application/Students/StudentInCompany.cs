@@ -51,6 +51,14 @@ namespace Application.Students
                     };
                     result.Add(one_student);
                 }
+                result.Sort(delegate (StudentInList x, StudentInList y)
+                {
+                    var StartDateX = DateTime.Parse(x.StartDate);
+                    var StartDateY = DateTime.Parse(y.StartDate);
+                    if (StartDateX == StartDateY) return 0;
+                    if (StartDateX > StartDateY) return -1;
+                    else return 1;
+                });
                 return result;
             }
         }
