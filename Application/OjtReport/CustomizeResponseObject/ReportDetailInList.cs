@@ -9,6 +9,7 @@ namespace Application.OjtReport.CustomizeResponseObject
 {
     public class ReportDetailInList
     {
+        public DateTime? PublicDate { get; set; }
         public string WorkSortDescription { get; set; }
         public string StudentCode { get; set; }
         public double? Mark { get; set; }
