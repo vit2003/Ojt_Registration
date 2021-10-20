@@ -52,7 +52,8 @@ namespace Application.User
                             Code = curUser.StudentCode,
                             Name = curUser.Fullname,
                             Role = request.Role,
-                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname)
+                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname),
+                            IsPassCriteria = curUser.IsPassCriteria
                         };
                     } else
                     {
