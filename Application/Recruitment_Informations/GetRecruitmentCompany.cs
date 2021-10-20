@@ -45,7 +45,7 @@ namespace Application.Recruitment_Informations
                 var list_recruitment = await _context
                     .RecruitmentInformations
                     .Include(x => x.Company)
-                    .Where(x => x.Company.Code == request.CompanyCode && x.Deadline > DateTime.UtcNow && x.IsDeleted == false)
+                    .Where(x => x.Company.Code == request.CompanyCode && x.Deadline > DateTime.UtcNow.AddDays(-1) && x.IsDeleted == false)
                     .ToListAsync();
                 if(list_recruitment == null || list_recruitment.Count == 0)
                 {
