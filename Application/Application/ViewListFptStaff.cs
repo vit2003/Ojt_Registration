@@ -52,6 +52,12 @@ namespace Application.Application
                     };
                     result.Add(staffViewApplication);
                 }
+                result.Sort(delegate (StaffViewApplication x, StaffViewApplication y)
+                {
+                    if (x.UpdateDate == y.UpdateDate) return 0;
+                    if (x.UpdateDate > y.UpdateDate) return -1;
+                    else return 1;
+                });
                 return result;
             }
         }

@@ -51,6 +51,12 @@ namespace Application.Application
                     };
                     result.Add(submettedApplication);
                 }
+                result.Sort(delegate (SubmittedApplication x, SubmittedApplication y)
+                {
+                    if (x.UpdateDate == y.UpdateDate) return 0;
+                    if (x.UpdateDate > y.UpdateDate) return -1;
+                    else return 1;
+                });
                 return result;
             }
         }

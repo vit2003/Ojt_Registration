@@ -54,8 +54,13 @@ namespace Application.Application
                         RegistrationDate = listapp.RegistrationDate
                     };
                     result.Add(applicationlist);
-
                 }
+                result.Sort(delegate (ApplicationInList x, ApplicationInList y)
+                {
+                    if (x.RegistrationDate == y.RegistrationDate) return 0;
+                    if (x.RegistrationDate > y.RegistrationDate) return -1;
+                    else return 1;
+                });
                 return result;
             }
         }
