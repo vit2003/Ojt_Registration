@@ -62,6 +62,12 @@ namespace Application.Recruitment_Informations
                     };
                     result.Add(recruitment);
                 }
+                result.Sort(delegate (RecruitmentInListReturn x, RecruitmentInListReturn y)
+                {
+                    if (x.Deadline == y.Deadline) return 0;
+                    if (x.Deadline > y.Deadline) return 1;
+                    else return -1;
+                });
                 return result;
             }
         }

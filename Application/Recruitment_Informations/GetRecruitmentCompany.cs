@@ -45,7 +45,7 @@ namespace Application.Recruitment_Informations
                 var list_recruitment = await _context
                     .RecruitmentInformations
                     .Include(x => x.Company)
-                    .Where(x => x.Company.Code == request.CompanyCode && x.Deadline > DateTime.UtcNow && x.IsDeleted == false)
+                    .Where(x => x.Company.Code == request.CompanyCode && x.Deadline > DateTime.UtcNow.AddDays(-1) && x.IsDeleted == false)
                     .ToListAsync();
                 if(list_recruitment == null || list_recruitment.Count == 0)
                 {
@@ -69,6 +69,12 @@ namespace Application.Recruitment_Informations
                     };
                     result.Add(recruitmentInList);
                 }
+                result.Sort(delegate (RecruitmentInListReturn x, RecruitmentInListReturn y)
+                {
+                    if (x.Deadline == y.Deadline) return 0;
+                    if (x.Deadline > y.Deadline) return 1;
+                    else return -1;
+                });
                 return result;
             }
         }
