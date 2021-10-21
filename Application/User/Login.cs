@@ -53,7 +53,7 @@ namespace Application.User
                             Name = curUser.Fullname,
                             Role = request.Role,
                             Token = _jwtGenerator.CreateToken(email, curUser.Fullname),
-                            IsPassCriteria = curUser.IsPassCriteria
+                            IsPassCriteria = curUser.CanSendApplication
                         };
                     } else
                     {

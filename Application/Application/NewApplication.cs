@@ -1,4 +1,5 @@
-﻿using Application.Interface;
+﻿using Application.Error;
+using Application.Interface;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -43,6 +44,12 @@ namespace Application.Application
 
                 var student_apply = await _context.Students.FirstOrDefaultAsync(x => x.StudentCode == request.StudentCode);
 
+                //Verify student
+                //check student can send application
+                if (!student_apply.CanSendApplication) 
+                    throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "You can't send the application now, please check your profile again");
+
+                //Add new application
                 var application = new RecruimentApply
                 {
                     CoverLetter = request.CoverLetter,
@@ -56,6 +63,11 @@ namespace Application.Application
                     Student = student_apply,
                 };
                 _context.RecruimentApplies.Add(application);
+
+                //Update student
+                student_apply.CanSendApplication = false;
+                _context.Students.Update(student_apply);
+
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success)
                 {

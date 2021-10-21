@@ -48,6 +48,7 @@ namespace Application.Application
                 application.Status = "Rejected";
                 application.UpdateDate = DateTime.Now;
                 application.Student.WorkingStatus = "Not in work";
+                application.Student.CanSendApplication = true;
 
                 _context.RecruimentApplies.Update(application);
 

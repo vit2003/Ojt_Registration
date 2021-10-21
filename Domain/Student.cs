@@ -19,7 +19,7 @@ namespace Domain
         public int? Term { get; set; }
         public int? Credit { get; set; }
         public double? Gpa { get; set; }
-        public bool IsPassCriteria { get; set; }
+        public bool CanSendApplication { get; set; }
         public int? CompanyId { get; set; }
         public int MajorId { get; set; }
         public string StudentCode { get; set; }
