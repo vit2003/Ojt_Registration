@@ -1,4 +1,5 @@
-﻿using Application.Recruitment_Informations.RequestObject;
+﻿using Application.Error;
+using Application.Recruitment_Informations.RequestObject;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -33,8 +34,22 @@ namespace Application.Recruitment_Informations
             {
                 //find company
                 var company = await _context.Companies.FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
+
+                if(company == null)
+                {
+                    throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Company code not found");
+                }
+
                 //find major
                 var major = await _context.Majors.FirstOrDefaultAsync(x => x.MajorName == request.Information.MajorName);
+
+                if(major == null)
+                {
+                    var newMajor = new Major { MajorName = request.Information.MajorName };
+                    _context.Majors.Add(newMajor);
+                    await _context.SaveChangesAsync();
+                    major = await _context.Majors.FirstOrDefaultAsync(x => x.MajorName == request.Information.MajorName);
+                }
 
                 //Create new information
                 var information = new RecruitmentInformation
