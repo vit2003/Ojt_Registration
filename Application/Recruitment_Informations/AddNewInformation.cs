@@ -36,6 +36,14 @@ namespace Application.Recruitment_Informations
                 //find major
                 var major = await _context.Majors.FirstOrDefaultAsync(x => x.MajorName == request.Information.MajorName);
 
+                if(major == null)
+                {
+                    var newMajor = new Major { MajorName = request.Information.MajorName };
+                    _context.Majors.Add(newMajor);
+                    await _context.SaveChangesAsync();
+                    major = await _context.Majors.FirstOrDefaultAsync(x => x.MajorName == request.Information.MajorName);
+                }
+
                 //Create new information
                 var information = new RecruitmentInformation
                 {
