@@ -24,7 +24,7 @@ namespace API.Controllers
         }
 
         /// <summary>
-        ///All role
+        ///Role: Student, FPT Staff
         /// </summary>
         /// <param name="query"></param>
         /// <returns></returns>
@@ -36,6 +36,11 @@ namespace API.Controllers
             return await _mediator.Send(query);
         }
 
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <param name="inputAccount"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("companies/login")]
         [AllowAnonymous]

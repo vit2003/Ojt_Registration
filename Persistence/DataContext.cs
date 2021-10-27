@@ -69,6 +69,20 @@ namespace Persistence
             modelBuilder.Entity<CompanyAccount>(entity =>
             {
                 entity.ToTable("tbl_company_accounts");
+
+                entity.Property(e => e.Id).HasColumnName("Id");
+
+                entity.Property(e => e.Fullname)
+                    .HasColumnType("nvarchar(MAX)")
+                    .HasColumnName("Fullname");
+
+                entity.Property(e => e.Email)
+                    .HasColumnType("nvarchar(MAX)")
+                    .HasColumnName("Email");
+
+                entity.Property(e => e.Code)
+                    .HasColumnType("nvarchar(MAX)")
+                    .HasColumnName("Code");
             });
 
             modelBuilder.Entity<FptStaff>(entity =>
