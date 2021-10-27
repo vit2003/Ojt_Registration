@@ -48,5 +48,19 @@ namespace API.Controllers
         {
             return await _mediator.Send(new StudentInCompany.Query { CompanyCode = CpCode });
         }
+
+        /// <summary>
+        /// Role: FPTStaff
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("import")]
+        public async Task<ActionResult<Unit>> AddNewStudent(NewStudent.Command command)
+        {
+            return await _mediator.Send(command);
+        } 
+
+
     }
 }
