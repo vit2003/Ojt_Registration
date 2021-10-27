@@ -5,6 +5,7 @@ using Application.Recruitment_Informations;
 using Application.Students;
 using FluentValidation.AspNetCore;
 using Infrastructure.Firebase;
+using Infrastructure.Hasing;
 using Infrastructure.JWTGenerate;
 using Infrastructure.PdfSupport;
 using MediatR;
@@ -69,6 +70,9 @@ namespace API
 
             //Add Scope for process firebase token
             services.AddScoped<IFirebaseSupport, FirebaseSupport>();
+
+            //Add Scope for hasing password
+            services.AddScoped<IHasingSupport, HasingSupport>();
 
             //Add verify jwt services
             var tokenValidationParams = new TokenValidationParameters

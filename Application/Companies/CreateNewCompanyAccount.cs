@@ -9,6 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Domain;
 using Application.Error;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Application.Interface;
 
 namespace Application.Companies
 {
@@ -27,20 +30,46 @@ namespace Application.Companies
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _context;
+            private readonly IHasingSupport _hasingSupport;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IHasingSupport hasingSupport)
             {
                 _context = context;
+                _hasingSupport = hasingSupport;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                //check valid company
                 var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == request.CompanyId);
 
-                if(company == null)
+                if (company == null)
                 {
                     throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Can't find company match with id you send");
                 }
+
+                //Check duplicate username
+                var checkUsernameAccount = await _context.CompanyAccounts
+                    .Include(x => x.Company)
+                    .FirstOrDefaultAsync(x => x.Username == request.Username);
+
+                if(checkUsernameAccount != null)
+                {
+                    throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Duplicated Username");
+                }
+
+                //Check duplicate company code
+                var checkCompanyCodeAccount = await _context.CompanyAccounts
+                    .Include(x => x.Company)
+                    .FirstOrDefaultAsync(x => x.Code == request.Code);
+
+                if (checkCompanyCodeAccount != null)
+                {
+                    throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Duplicated Company Code");
+                }
+
+                //Hasing pasword
+                string hassedPassword = _hasingSupport.encriptSHA256(request.Password);
 
                 var account = new CompanyAccount
                 {
@@ -48,7 +77,7 @@ namespace Application.Companies
                     Company = company,
                     Email = request.Email,
                     Fullname = request.Fullname,
-                    Password = request.Password,
+                    Password = hassedPassword,
                     Username = request.Username
                 };
 
