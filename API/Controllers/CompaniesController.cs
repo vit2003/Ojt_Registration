@@ -1,4 +1,5 @@
 ﻿using Application.Companies;
+using Application.Companies.RequestObject;
 using Application.Companies.ResponseObject;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,40 @@ namespace API.Controllers
         public async Task<ActionResult<List<CompanyInList>>> getListCompany(string staffcode)
         {
             return await _mediator.Send(new GetAllCompany.Query { StaffCode = staffcode });
+        }
+
+        /// <summary>
+        /// Role: Fpt staff
+        /// </summary>
+        /// <param name="companyId">Company id is return in list of company</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("account/{companyId}")]
+        public async Task<ActionResult<List<AccountInCompany>>> getAccountOfCompany(int companyId)
+        {
+            return await _mediator.Send(new GetCompanyAccount.Query { CompanyId = companyId });
+        }
+
+        /// <summary>
+        /// Role: FPT staff
+        /// </summary>
+        /// <param name="request">All contain to create new account</param>
+        /// <param name="companyId">Id is return in list company</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("newaccount/{companyId}")]
+        public async Task<ActionResult<Unit>> CreateNewCompanyAccount(NewCompanyAccount request, int companyId)
+        {
+            var command = new CreateNewCompanyAccount.Command
+            {
+                Code = request.Code,
+                CompanyId = companyId,
+                Email = request.Email,
+                Fullname = request.Fullname,
+                Password = request.Password,
+                Username = request.Username
+            };
+            return await _mediator.Send(command);
         }
     }
 }
