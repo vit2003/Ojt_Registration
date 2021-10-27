@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Students;
 using Application.Students.CustomizeResponseObject;
+using Application.Students.CustomizeRequestObject;
 
 namespace API.Controllers
 {
@@ -52,12 +53,13 @@ namespace API.Controllers
         /// <summary>
         /// Role: FPTStaff
         /// </summary>
-        /// <param name="command"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
         [Route("import")]
-        public async Task<ActionResult<Unit>> AddNewStudent(NewStudent.Command command)
+        public async Task<ActionResult<Unit>> AddNewStudent(AddNewRequest request)
         {
+            var command = new NewStudent.Command { Students = request.StudentList };
             return await _mediator.Send(command);
         } 
 
