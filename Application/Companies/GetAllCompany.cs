@@ -54,6 +54,11 @@ namespace Application.Companies
                     result.Add(returnCompany);
                 }
 
+                result.Sort(delegate (CompanyInList x, CompanyInList y)
+                {
+                    return x.CompanyName.CompareTo(y.CompanyName);
+                });
+
                 return result;
             }
         }
