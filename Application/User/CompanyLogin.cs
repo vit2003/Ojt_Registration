@@ -2,11 +2,13 @@
 using Application.Interface;
 using Application.User.CostomizeResponseObject;
 using MediatR;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,11 +27,13 @@ namespace Application.User
         {
             private readonly DataContext _context;
             private readonly IJwtGenerator _jwtGenerator;
+            private readonly IHasingSupport _hasingSupport;
 
-            public Handler(DataContext context, IJwtGenerator jwtGenerator)
+            public Handler(DataContext context, IJwtGenerator jwtGenerator, IHasingSupport hasingSupport)
             {
                 _context = context;
                 _jwtGenerator = jwtGenerator;
+                _hasingSupport = hasingSupport;
             }
             public async Task<CompanyAccount> Handle(Query request, CancellationToken cancellationToken)
             {
@@ -40,8 +44,15 @@ namespace Application.User
                     throw new SearchResultException(System.Net.HttpStatusCode.BadRequest, "Invalid Username/Password");
                 }
 
-                if(company_account.Password == request.Password)
+                //hasing password
+                string hassedPassword = _hasingSupport.encriptSHA256(request.Password);
+
+                if (company_account.Password == hassedPassword)
                 {
+                    company_account.Company.LastInteractDate = DateTime.Now;
+                    _context.CompanyAccounts.Update(company_account);
+                    await _context.SaveChangesAsync();
+
                     return new CompanyAccount
                     {
                         Code = company_account.Code,
