@@ -66,6 +66,11 @@ namespace Persistence
                     .HasColumnName("HostManagerEmail");
             });
 
+            modelBuilder.Entity<CompanyAccount>(entity =>
+            {
+                entity.ToTable("tbl_company_accounts");
+            });
+
             modelBuilder.Entity<FptStaff>(entity =>
             {
                 entity.ToTable("tbl_fpt_staff");
