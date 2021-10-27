@@ -76,23 +76,6 @@ namespace Application.User
                             Code = curUser.Code
                         };
                     }
-                } else if (request.Role == 2) //login for role company
-                {
-                    var curUser = await _context.Companies.FirstOrDefaultAsync(x => x.Email == email);
-                    if(curUser != null)
-                    {
-                        return new Account
-                        {
-                            Name = curUser.Fullname,
-                            Role = request.Role,
-                            Token = _jwtGenerator.CreateToken(email, curUser.Fullname),
-                            Code = curUser.Code
-                        };
-                    }
-                    else
-                    {
-                        throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
-                    }
                 }
                 throw new FirebaseLoginException(HttpStatusCode.Unauthorized, "Unexisted Account");
             }

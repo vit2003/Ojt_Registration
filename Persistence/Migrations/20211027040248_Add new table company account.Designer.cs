@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211027040248_Add new table company account")]
+    partial class Addnewtablecompanyaccount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,13 +34,20 @@ namespace Persistence.Migrations
                         .HasColumnType("ntext")
                         .HasColumnName("address");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CompanyName")
                         .HasColumnType("ntext")
                         .HasColumnName("company_name");
 
-                    b.Property<string>("HostManagerEmail")
+                    b.Property<string>("Email")
                         .HasColumnType("varchar(MAX)")
-                        .HasColumnName("HostManagerEmail");
+                        .HasColumnName("email");
+
+                    b.Property<string>("Fullname")
+                        .HasColumnType("ntext")
+                        .HasColumnName("fullname");
 
                     b.Property<string>("WebSite")
                         .HasColumnType("text")
@@ -59,9 +68,6 @@ namespace Persistence.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CompanyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
@@ -75,8 +81,6 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId");
 
                     b.ToTable("CompanyAccounts");
                 });
@@ -303,27 +307,6 @@ namespace Persistence.Migrations
                     b.ToTable("RefreshToken");
                 });
 
-            modelBuilder.Entity("Domain.Semester", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Semesters");
-                });
-
             modelBuilder.Entity("Domain.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -397,15 +380,6 @@ namespace Persistence.Migrations
                     b.ToTable("tbl_student");
                 });
 
-            modelBuilder.Entity("Domain.CompanyAccount", b =>
-                {
-                    b.HasOne("Domain.Company", "Company")
-                        .WithMany("CompanyAccounts")
-                        .HasForeignKey("CompanyId");
-
-                    b.Navigation("Company");
-                });
-
             modelBuilder.Entity("Domain.OjtReports", b =>
                 {
                     b.HasOne("Domain.Company", "Company")
@@ -472,8 +446,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Company", b =>
                 {
-                    b.Navigation("CompanyAccounts");
-
                     b.Navigation("OjtReports");
 
                     b.Navigation("RecruitmentInformations");

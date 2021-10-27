@@ -30,7 +30,11 @@ namespace Application.Students
             public async Task<List<StudentInList>> Handle(Query request, CancellationToken cancellationToken)
             {
                 //Find Company
-                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
+                var company_account = await _context
+                    .CompanyAccounts
+                    .Include(x => x.Company)
+                    .FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
+                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == company_account.Id);
                 if (company == null) throw new Exception("Company not found");
                 //Find Student
                 var student_list = await _context

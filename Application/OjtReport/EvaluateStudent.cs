@@ -50,8 +50,9 @@ namespace Application.OjtReport
                     .FirstOrDefaultAsync(x => x.StudentCode == request.StudentCode);
 
                 //Find company
+                var company_account = await _context.CompanyAccounts.Include(x => x.Company).FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
                 var company = await _context.Companies
-                    .FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
+                    .FirstOrDefaultAsync(x => x.Id == company_account.Company.Id);
 
                 //Create Report
                 var report = new OjtReports

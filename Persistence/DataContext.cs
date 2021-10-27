@@ -27,6 +27,8 @@ namespace Persistence
         public virtual DbSet<RecruitmentInformation> RecruitmentInformations { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<RefreshToken> RefreshToken { get; set; }
+        public virtual DbSet<CompanyAccount> CompanyAccounts {get; set; }
+        public virtual DbSet<Semester> Semesters {get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -59,13 +61,28 @@ namespace Persistence
                     .HasColumnType("ntext")
                     .HasColumnName("company_name");
 
-                entity.Property(e => e.Email)
+                entity.Property(e => e.HostManagerEmail)
                     .HasColumnType("varchar(MAX)")
-                    .HasColumnName("email");
+                    .HasColumnName("HostManagerEmail");
+            });
+
+            modelBuilder.Entity<CompanyAccount>(entity =>
+            {
+                entity.ToTable("tbl_company_accounts");
+
+                entity.Property(e => e.Id).HasColumnName("Id");
 
                 entity.Property(e => e.Fullname)
-                    .HasColumnType("ntext")
-                    .HasColumnName("fullname");
+                    .HasColumnType("nvarchar(MAX)")
+                    .HasColumnName("Fullname");
+
+                entity.Property(e => e.Email)
+                    .HasColumnType("nvarchar(MAX)")
+                    .HasColumnName("Email");
+
+                entity.Property(e => e.Code)
+                    .HasColumnType("nvarchar(MAX)")
+                    .HasColumnName("Code");
             });
 
             modelBuilder.Entity<FptStaff>(entity =>
