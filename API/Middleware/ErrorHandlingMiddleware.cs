@@ -47,6 +47,11 @@ namespace API.Middleware
                     errors = fble.Error;
                     context.Response.StatusCode = (int)fble.Code;
                     break;
+                case UpdateError Ue:
+                    logger.LogError(ex, "Update exception");
+                    errors = Ue.Error;
+                    context.Response.StatusCode = (int)Ue.Code;
+                    break;
                 case Exception e:
                     logger.LogError(ex, "Server Error");
                     errors = string.IsNullOrWhiteSpace(e.Message) ? "Error" : e.Message;

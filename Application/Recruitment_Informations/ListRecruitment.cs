@@ -26,12 +26,27 @@ namespace Application.Recruitment_Informations
             {
                 _context = context;
             }
+            private string getMajorName(List<Major> list, int id)
+            {
+                foreach (Major major in list)
+                {
+                    if (major.Id == id)
+                    {
+                        return major.MajorName;
+                    }
+                }
+                return null;
+            }
             public async Task<List<RecruitmentInListReturn>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var list_recruitment = await _context.RecruitmentInformations.Include(x => x.Company).Where(x => x.Deadline >= DateTime.Now).ToListAsync();
+                var list_recruitment = await _context
+                    .RecruitmentInformations
+                    .Include(x => x.Company)
+                    .Where(x => x.Deadline >= DateTime.Now && x.IsDeleted == false)
+                    .ToListAsync();
 
                 var list_major = await _context.Majors.ToListAsync();
-                List<RecruitmentInListReturn> result = new List<RecruitmentInListReturn>();
+                var result = new List<RecruitmentInListReturn>();
 
                 foreach(RecruitmentInformation infor in list_recruitment)
                 {
@@ -41,25 +56,18 @@ namespace Application.Recruitment_Informations
                         CompanyName = infor.Company.CompanyName,
                         Deadline = infor.Deadline,
                         Id = infor.Id,
-                        MajorName = getMajorName(list_major, infor.Id),
+                        MajorName = getMajorName(list_major, infor.MajorId),
                         Salary = infor.Salary,
                         Topic = infor.Topic
                     };
                     result.Add(recruitment);
                 }
-                return result;
-            }
-            private string getMajorName(List<Major> list, int id)
-            {
-                string result = "";
-                foreach (Major major in list)
+                result.Sort(delegate (RecruitmentInListReturn x, RecruitmentInListReturn y)
                 {
-                    if (major.Id == id)
-                    {
-                        result = major.MajorName;
-                        break;
-                    }
-                }
+                    if (x.Deadline == y.Deadline) return 0;
+                    if (x.Deadline > y.Deadline) return 1;
+                    else return -1;
+                });
                 return result;
             }
         }

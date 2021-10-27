@@ -1,23 +1,27 @@
 ﻿using API.Middleware;
 using Application.Interface;
+using Application.OjtReport;
 using Application.Recruitment_Informations;
 using Application.Students;
 using FluentValidation.AspNetCore;
 using Infrastructure.Firebase;
 using Infrastructure.JWTGenerate;
+using Infrastructure.PdfSupport;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using Persistence;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace API
@@ -38,7 +42,7 @@ namespace API
             services.AddControllers()
                 .AddFluentValidation(cfg =>
             {
-                cfg.RegisterValidatorsFromAssemblyContaining<Detail>();
+                cfg.RegisterValidatorsFromAssemblyContaining<EvaluateStudent>();
             });
 
             //add cross origin
@@ -50,12 +54,6 @@ namespace API
                     .AllowAnyHeader());
             });
 
-            //show swagger UI services
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-            });
-
             //Link to Database services
             services.AddDbContext<DataContext>(opt =>
             opt.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -65,6 +63,9 @@ namespace API
 
             //Add Scope for generate firebase token
             services.AddScoped<IJwtGenerator, JwtGenerator>();
+
+            //Add Scope for file process
+            services.AddScoped<IPdfFileSupport, PdfFileSupport>();
 
             //Add Scope for process firebase token
             services.AddScoped<IFirebaseSupport, FirebaseSupport>();
@@ -94,6 +95,30 @@ namespace API
             //    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             //    opt.Filters.Add(new AuthorizeFilter(policy));
             //});
+
+            //add services note in parameter in swagger
+            services.AddSwaggerGen(opt =>
+            {
+                opt.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Ojt_Registration API",
+                        Description = "For get information of ojt-registration app",
+                        Version = "v1.0"
+                    });
+                var fileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var path = Path.Combine(AppContext.BaseDirectory, fileName);
+                opt.IncludeXmlComments(path);
+            });
+
+            //add services process pdf file
+            services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Path.Combine(AppDomain.CurrentDomain.BaseDirectory)));
+
+            //redirect service
+            services.AddHttpsRedirection(opt =>
+            {
+                opt.HttpsPort = 5001;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,7 +128,6 @@ namespace API
             //app.UseDeveloperExceptionPage();
             app.UseSwagger();
 
-            app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -112,11 +136,13 @@ namespace API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ojt-Registration"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Ojt_Registration API"));
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

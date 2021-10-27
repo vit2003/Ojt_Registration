@@ -8,8 +8,11 @@ namespace Application.Application.CustomizeResponseObject
 {
     public class ApplicationInList
     {
-        public string Company { get; set; }
+        public int Id { get; set; }
+        public string StudentCode { get; set; }
+        public string Fullname { get; set; }
+        public string Position { get; set; }
         public string Status { get; set; }
-        public string UpdatedDate { get; set; }
+        public DateTime? RegistrationDate { get; set; }
     }
 }

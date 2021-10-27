@@ -11,5 +11,6 @@ namespace Domain
         public string Email { get; set; }
         public string Fullname { get; set; }
         public string Image { get; set; }
+        public string Code { get; set; }
     }
 }

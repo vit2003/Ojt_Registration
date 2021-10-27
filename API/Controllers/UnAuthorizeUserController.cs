@@ -22,6 +22,11 @@ namespace API.Controllers
             _mediator = mediator;
         }
 
+        /// <summary>
+        ///All role
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]

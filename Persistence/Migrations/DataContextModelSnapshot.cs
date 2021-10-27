@@ -32,13 +32,14 @@ namespace Persistence.Migrations
                         .HasColumnType("ntext")
                         .HasColumnName("address");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CompanyName")
-                        .IsRequired()
                         .HasColumnType("ntext")
                         .HasColumnName("company_name");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("varchar(MAX)")
                         .HasColumnName("email");
 
@@ -55,6 +56,33 @@ namespace Persistence.Migrations
                     b.ToTable("tbl_company");
                 });
 
+            modelBuilder.Entity("Domain.CompanyAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Fullname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompanyAccounts");
+                });
+
             modelBuilder.Entity("Domain.FptStaff", b =>
                 {
                     b.Property<int>("Id")
@@ -62,6 +90,9 @@ namespace Persistence.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -90,7 +121,7 @@ namespace Persistence.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("MajorName")
-                        .HasColumnType("ntext")
+                        .HasColumnType("varchar(MAX)")
                         .HasColumnName("major_name");
 
                     b.HasKey("Id");
@@ -114,10 +145,6 @@ namespace Persistence.Migrations
                         .HasColumnType("ntext")
                         .HasColumnName("division");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime")
-                        .HasColumnName("end_date");
-
                     b.Property<string>("LineManagerName")
                         .HasColumnType("ntext")
                         .HasColumnName("line_manager_name");
@@ -133,10 +160,6 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("Public_Date")
                         .HasColumnType("datetime")
                         .HasColumnName("public_date");
-
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime")
-                        .HasColumnName("start_date");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int")
@@ -167,9 +190,8 @@ namespace Persistence.Migrations
                         .HasColumnType("ntext")
                         .HasColumnName("cover_letter");
 
-                    b.Property<byte[]>("Cv")
-                        .IsRequired()
-                        .HasColumnType("varbinary(MAX)")
+                    b.Property<string>("Cv")
+                        .HasColumnType("varchar(MAX)")
                         .HasColumnName("cv");
 
                     b.Property<int?>("RecruimentInformationId")
@@ -189,7 +211,8 @@ namespace Persistence.Migrations
                         .HasColumnName("student_id");
 
                     b.Property<DateTime>("UpdateDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime")
+                        .HasColumnName("update_date");
 
                     b.HasKey("Id");
 
@@ -223,6 +246,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("Deadline")
                         .HasColumnType("datetime")
                         .HasColumnName("deadline");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MajorId")
                         .HasColumnType("int")
@@ -279,6 +305,27 @@ namespace Persistence.Migrations
                     b.ToTable("RefreshToken");
                 });
 
+            modelBuilder.Entity("Domain.Semester", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Semesters");
+                });
+
             modelBuilder.Entity("Domain.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -290,6 +337,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime?>("Birthday")
                         .HasColumnType("datetime")
                         .HasColumnName("birthday");
+
+                    b.Property<bool>("CanSendApplication")
+                        .HasColumnType("bit");
 
                     b.Property<int?>("CompanyId")
                         .HasColumnType("int")
@@ -303,6 +353,9 @@ namespace Persistence.Migrations
                         .HasColumnType("varchar(MAX)")
                         .HasColumnName("email");
 
+                    b.Property<string>("EndDate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Fullname")
                         .HasColumnType("ntext")
                         .HasColumnName("fullname");
@@ -315,9 +368,6 @@ namespace Persistence.Migrations
                         .HasColumnType("float")
                         .HasColumnName("gpa");
 
-                    b.Property<bool>("IsPassCriteria")
-                        .HasColumnType("bit");
-
                     b.Property<int>("MajorId")
                         .HasColumnType("int")
                         .HasColumnName("major_id");
@@ -326,6 +376,9 @@ namespace Persistence.Migrations
                         .HasColumnType("text")
                         .HasColumnName("phone");
 
+                    b.Property<string>("StartDate")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("StudentCode")
                         .HasColumnType("varchar(MAX)")
                         .HasColumnName("student_code");
@@ -333,6 +386,9 @@ namespace Persistence.Migrations
                     b.Property<int?>("Term")
                         .HasColumnType("int")
                         .HasColumnName("term");
+
+                    b.Property<string>("WorkingStatus")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

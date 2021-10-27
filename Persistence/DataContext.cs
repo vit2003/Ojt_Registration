@@ -27,6 +27,8 @@ namespace Persistence
         public virtual DbSet<RecruitmentInformation> RecruitmentInformations { get; set; }
         public virtual DbSet<Student> Students { get; set; }
         public virtual DbSet<RefreshToken> RefreshToken { get; set; }
+        public virtual DbSet<CompanyAccount> CompanyAccounts {get; set; }
+        public virtual DbSet<Semester> Semesters {get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -56,12 +58,10 @@ namespace Persistence
                     .HasColumnName("address");
 
                 entity.Property(e => e.CompanyName)
-                    .IsRequired()
                     .HasColumnType("ntext")
                     .HasColumnName("company_name");
 
                 entity.Property(e => e.Email)
-                    .IsRequired()
                     .HasColumnType("varchar(MAX)")
                     .HasColumnName("email");
 
@@ -97,7 +97,7 @@ namespace Persistence
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.MajorName)
-                    .HasColumnType("ntext")
+                    .HasColumnType("varchar(MAX)")
                     .HasColumnName("major_name");
             });
 
@@ -113,10 +113,6 @@ namespace Persistence
                     .HasColumnType("ntext")
                     .HasColumnName("division");
 
-                entity.Property(e => e.EndDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("end_date");
-
                 entity.Property(e => e.LineManagerName)
                     .HasColumnType("ntext")
                     .HasColumnName("line_manager_name");
@@ -124,10 +120,6 @@ namespace Persistence
                 entity.Property(e => e.Mark).HasColumnName("mark");
 
                 entity.Property(e => e.OnWorkDate).HasColumnName("on_work_date");
-
-                entity.Property(e => e.StartDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("start_date");
 
                 entity.Property(e => e.StudentId).HasColumnName("student_id");
 
@@ -159,8 +151,7 @@ namespace Persistence
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Cv)
-                    .IsRequired()
-                    .HasColumnType("varbinary(MAX)")
+                    .HasColumnType("varchar(MAX)")
                     .HasColumnName("cv");
 
                 entity.Property(e => e.RecruimentInformationId).HasColumnName("recruiment_information_id");

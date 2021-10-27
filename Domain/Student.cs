@@ -19,13 +19,16 @@ namespace Domain
         public int? Term { get; set; }
         public int? Credit { get; set; }
         public double? Gpa { get; set; }
-        public bool IsPassCriteria { get; set; }
+        public bool CanSendApplication { get; set; }
         public int? CompanyId { get; set; }
         public int MajorId { get; set; }
         public string StudentCode { get; set; }
         public string Email { get; set; }
         public string Fullname { get; set; }
         public string Gender { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string WorkingStatus { get; set; }
         public virtual Company Company { get; set; }
         public virtual Major Major { get; set; }
         public virtual ICollection<OjtReports> OjtReports { get; set; }
