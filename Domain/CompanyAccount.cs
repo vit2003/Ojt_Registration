@@ -13,5 +13,7 @@ namespace Domain
         public string Username { get; set; }
         public string Code { get; set; }
         public string Password{get; set; }
+
+        public virtual Company Company { get; set; }
     }
 }

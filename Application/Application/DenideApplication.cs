@@ -37,7 +37,9 @@ namespace Application.Application
                     .ThenInclude(x => x.Company)
                     .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-                if (application.RecruimentInformation.Company.Code != request.CompanyCode)
+                var company_account = await _context.CompanyAccounts.Include(x => x.Company).FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
+
+                if (application.RecruimentInformation.Company.Id != company_account.Company.Id)
                 {
                     throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Application not related to your company");
                 }

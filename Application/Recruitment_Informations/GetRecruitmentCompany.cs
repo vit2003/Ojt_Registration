@@ -41,11 +41,12 @@ namespace Application.Recruitment_Informations
             }
             public async Task<List<RecruitmentInListReturn>> Handle(Query request, CancellationToken cancellationToken)
             {
+                var company_account = await _context.CompanyAccounts.Include(x => x.Company).FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
                 //get recruitment information of company
                 var list_recruitment = await _context
                     .RecruitmentInformations
                     .Include(x => x.Company)
-                    .Where(x => x.Company.Code == request.CompanyCode && x.Deadline > DateTime.UtcNow.AddDays(-1) && x.IsDeleted == false)
+                    .Where(x => x.Company.Id == company_account.Id && x.Deadline > DateTime.UtcNow.AddDays(-1) && x.IsDeleted == false)
                     .ToListAsync();
                 if(list_recruitment == null || list_recruitment.Count == 0)
                 {

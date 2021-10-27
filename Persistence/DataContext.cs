@@ -61,13 +61,9 @@ namespace Persistence
                     .HasColumnType("ntext")
                     .HasColumnName("company_name");
 
-                entity.Property(e => e.Email)
+                entity.Property(e => e.HostManagerEmail)
                     .HasColumnType("varchar(MAX)")
-                    .HasColumnName("email");
-
-                entity.Property(e => e.Fullname)
-                    .HasColumnType("ntext")
-                    .HasColumnName("fullname");
+                    .HasColumnName("HostManagerEmail");
             });
 
             modelBuilder.Entity<FptStaff>(entity =>
