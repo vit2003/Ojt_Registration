@@ -42,6 +42,10 @@ namespace Application.User
 
                 if(company_account.Password == request.Password)
                 {
+                    company_account.Company.LastInteractDate = DateTime.Now;
+                    _context.CompanyAccounts.Update(company_account);
+                    await _context.SaveChangesAsync();
+
                     return new CompanyAccount
                     {
                         Code = company_account.Code,
