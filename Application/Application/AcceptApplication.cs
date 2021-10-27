@@ -35,9 +35,12 @@ namespace Application.Application
                     .Include(x => x.Student)
                     .Include(x => x.RecruimentInformation)
                     .ThenInclude(x => x.Company)
+                    .ThenInclude(x => x.CompanyAccounts)
                     .FirstOrDefaultAsync(x => x.Id == request.Id);
 
-                if (application.RecruimentInformation.Company.Code != request.CompanyCode)
+                var company_Account = await _context.CompanyAccounts.Include(x => x.Company).FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
+
+                if (company_Account.Company.Id != application.RecruimentInformation.Company.Id)
                 {
                     throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Application not related to your company");
                 }

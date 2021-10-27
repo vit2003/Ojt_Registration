@@ -33,7 +33,8 @@ namespace Application.Recruitment_Informations
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 //find company
-                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
+                var company_account = await _context.CompanyAccounts.Include(x => x.Company).FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
+                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == company_account.Company.Id);
 
                 if(company == null)
                 {

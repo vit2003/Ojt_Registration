@@ -29,12 +29,14 @@ namespace Application.Application
             }
             public async Task<List<ApplicationInList>> Handle(Query request, CancellationToken cancellationToken)
             {
+                var company_account = await _context.CompanyAccounts.Include(x => x.Company).FirstOrDefaultAsync(x => x.Code == request.StaffCode);
+
                 var application_list = await _context
                     .RecruimentApplies
                     .Include(x => x.Student)
                     .Include(x => x.RecruimentInformation)
                     .ThenInclude(x => x.Company)
-                    .Where(x => x.RegistrationDate > DateTime.UtcNow.AddMonths(-4) && x.RecruimentInformation.Company.Code == request.StaffCode)
+                    .Where(x => x.RegistrationDate > DateTime.UtcNow.AddMonths(-4) && x.RecruimentInformation.Company.Id == company_account.Company.Id)
                     .ToListAsync();
 
                 if (application_list == null)

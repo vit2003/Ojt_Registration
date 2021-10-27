@@ -10,16 +10,16 @@ namespace Domain
             OjtReports = new HashSet<OjtReports>();
             RecruitmentInformations = new HashSet<RecruitmentInformation>();
             Students = new HashSet<Student>();
+            CompanyAccounts = new HashSet<CompanyAccount>();
         }
 
         public int Id { get; set; }
         public string CompanyName { get; set; }
         public string Address { get; set; }
         public string WebSite { get; set; }
-        public string Email { get; set; }
-        public string Fullname { get; set; }
-        public string Code { get; set; }
+        public string HostManagerEmail { get; set; }
 
+        public virtual ICollection<CompanyAccount> CompanyAccounts { get; set; }
         public virtual ICollection<OjtReports> OjtReports { get; set; }
         public virtual ICollection<RecruitmentInformation> RecruitmentInformations { get; set; }
         public virtual ICollection<Student> Students { get; set; }

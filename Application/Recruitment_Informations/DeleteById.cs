@@ -39,7 +39,12 @@ namespace Application.Recruitment_Informations
                     throw new SearchResultException(System.Net.HttpStatusCode.NotFound, "No matches recruitment to delete");
                 }
 
-                if (information.Company.Code != request.CompanyCode)
+                //get company account
+                var company_account = await _context
+                    .CompanyAccounts
+                    .Include(x => x.Company)
+                    .FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
+                if (information.Company.Id != company_account.Company.Id)
                 {
                     throw new SearchResultException(System.Net.HttpStatusCode.BadRequest, "It's not your company recruitment information");
                 }
