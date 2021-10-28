@@ -10,8 +10,6 @@ namespace Application.Companies.RequestObject
     public class NewCompany
     {
         [Required]
-        public int Id { get; set; }
-        [Required]
         public string CompanyName { get; set; }
         [Required]
         public string Address { get; set; }
@@ -19,7 +17,5 @@ namespace Application.Companies.RequestObject
         public string WebSite { get; set; }
         [Required]
         public string HostManagerEmail { get; set; }
-        [Required]
-        public DateTime LastInteractDate { get; set; }
     }
 }

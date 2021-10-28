@@ -17,12 +17,10 @@ namespace Application.Companies
     {
         public class Command : IRequest
         {
-            public int Id { get; set; }
             public string CompanyName { get; set; }
             public string Address { get; set; }
             public string WebSite { get; set; }
             public string HostManagerEmail { get; set; }
-            public DateTime LastInteractDate { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -32,27 +30,10 @@ namespace Application.Companies
             public Handler(DataContext context)
             {
                 _context = context;
-
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                if(request.CompanyName == null)
-                {
-                    throw new Exception("CompanyName cannot be empty");
-                }
-                if (request.Address == null)
-                {
-                    throw new Exception("Address cannot be empty");
-                }
-                if (request.WebSite == null)
-                {
-                    throw new Exception("Website of company cannot be empty");
-                }
-                if (request.HostManagerEmail == null)
-                {
-                    throw new Exception("HostManagerEmail cannot be empty");
-                }
 
                 var infomation = new Company
                 {

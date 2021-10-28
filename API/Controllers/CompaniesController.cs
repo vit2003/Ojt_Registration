@@ -70,8 +70,15 @@ namespace API.Controllers
 
         [HttpPost]
         [Route("newcompany")]
-        public async Task<ActionResult<Unit>> CreateNewCompanyInfo(CreateNewCompanyInfo.Command command)
+        public async Task<ActionResult<Unit>> CreateNewCompanyInfo(NewCompany request)
         {
+            var command = new CreateNewCompanyInfo.Command
+            {
+                Address = request.Address,
+                CompanyName = request.CompanyName,
+                HostManagerEmail = request.HostManagerEmail,
+                WebSite = request.WebSite
+            };
             return await _mediator.Send(command);
         }
     }

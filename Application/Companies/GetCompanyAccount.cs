@@ -48,6 +48,11 @@ namespace Application.Companies
                     result.Add(returnAccount);
                 }
 
+                result.Sort(delegate (AccountInCompany x, AccountInCompany y)
+                {
+                    return x.Username.CompareTo(y.Username);
+                });
+
                 return result;
             }
         }
