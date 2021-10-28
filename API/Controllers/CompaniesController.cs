@@ -68,6 +68,11 @@ namespace API.Controllers
             return await _mediator.Send(command);
         }
 
+        /// <summary>
+        /// Role: FPT Staff
+        /// </summary>
+        /// <param name="request">Information of new company</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("newcompany")]
         public async Task<ActionResult<Unit>> CreateNewCompanyInfo(NewCompany request)
