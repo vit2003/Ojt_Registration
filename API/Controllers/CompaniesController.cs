@@ -67,5 +67,12 @@ namespace API.Controllers
             };
             return await _mediator.Send(command);
         }
+
+        [HttpPost]
+        [Route("newcompany")]
+        public async Task<ActionResult<Unit>> CreateNewCompanyInfo(CreateNewCompanyInfo.Command command)
+        {
+            return await _mediator.Send(command);
+        }
     }
 }
