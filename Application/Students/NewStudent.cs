@@ -60,6 +60,12 @@ namespace Application.Students
                         CanSendApplication = true,
 
                     };
+
+                    if(StudentinDomain.MajorId == -1)
+                    {
+                        throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Invalid MajorName: "+StudentinDomain.Major+" of student: "+StudentinDomain.StudentCode);
+                    }
+
                     _context.Students.Add(StudentinDomain);
                 }
                 var success = await _context.SaveChangesAsync() > 0;
