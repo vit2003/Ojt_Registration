@@ -31,7 +31,7 @@ namespace Application.Students
             {
                 foreach (Major major in majors)
                 {
-                    if (majorName == major.MajorName)
+                    if (majorName.ToUpper() == major.MajorName)
                     {
                         return major.Id;
                     }
