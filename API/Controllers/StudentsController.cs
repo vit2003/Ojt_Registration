@@ -63,6 +63,16 @@ namespace API.Controllers
             return await _mediator.Send(command);
         } 
 
-
+        /// <summary>
+        /// Role: FPT Staff
+        /// </summary>
+        /// <param name="studentStatus">0: NotInWork, 1: Working, 2: Finished</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("status/{studentStatus}")]
+        public async Task<ActionResult<List<ExportStudent>>> GetStudentByStatus(int studentStatus)
+        {
+            return await _mediator.Send(new ListStudent.Query { status = studentStatus });
+        }
     }
 }
