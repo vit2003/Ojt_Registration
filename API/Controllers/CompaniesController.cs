@@ -81,7 +81,6 @@ namespace API.Controllers
             {
                 Address = request.Address,
                 CompanyName = request.CompanyName,
-                HostManagerEmail = request.HostManagerEmail,
                 WebSite = request.WebSite
             };
             return await _mediator.Send(command);

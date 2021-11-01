@@ -47,7 +47,6 @@ namespace Application.Companies
                     {
                         Address = company.Address,
                         CompanyName = company.CompanyName,
-                        HostManagerEmail = company.HostManagerEmail,
                         Id = company.Id,
                         WebSite = company.WebSite
                     };

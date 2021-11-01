@@ -60,10 +60,6 @@ namespace Persistence
                 entity.Property(e => e.CompanyName)
                     .HasColumnType("ntext")
                     .HasColumnName("company_name");
-
-                entity.Property(e => e.HostManagerEmail)
-                    .HasColumnType("varchar(MAX)")
-                    .HasColumnName("HostManagerEmail");
             });
 
             modelBuilder.Entity<CompanyAccount>(entity =>

@@ -20,7 +20,6 @@ namespace Application.Companies
             public string CompanyName { get; set; }
             public string Address { get; set; }
             public string WebSite { get; set; }
-            public string HostManagerEmail { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -40,7 +39,6 @@ namespace Application.Companies
                     CompanyName = request.CompanyName,
                     Address = request.Address,
                     WebSite = request.WebSite,
-                    HostManagerEmail = request.HostManagerEmail,
                     LastInteractDate = DateTime.Now
                 };
 
