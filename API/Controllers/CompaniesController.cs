@@ -58,7 +58,6 @@ namespace API.Controllers
         {
             var command = new CreateNewCompanyAccount.Command
             {
-                Code = request.Code,
                 CompanyId = companyId,
                 Email = request.Email,
                 Fullname = request.Fullname,
