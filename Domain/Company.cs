@@ -17,7 +17,6 @@ namespace Domain
         public string CompanyName { get; set; }
         public string Address { get; set; }
         public string WebSite { get; set; }
-        public string HostManagerEmail { get; set; }
         public DateTime LastInteractDate { get; set; }
 
         public virtual ICollection<CompanyAccount> CompanyAccounts { get; set; }

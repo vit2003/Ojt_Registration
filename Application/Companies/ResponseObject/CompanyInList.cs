@@ -12,6 +12,5 @@ namespace Application.Companies.ResponseObject
         public string CompanyName { get; set; }
         public string Address { get; set; }
         public string WebSite { get; set; }
-        public string HostManagerEmail { get; set; }
     }
 }

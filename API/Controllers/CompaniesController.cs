@@ -58,7 +58,6 @@ namespace API.Controllers
         {
             var command = new CreateNewCompanyAccount.Command
             {
-                Code = request.Code,
                 CompanyId = companyId,
                 Email = request.Email,
                 Fullname = request.Fullname,
@@ -81,7 +80,6 @@ namespace API.Controllers
             {
                 Address = request.Address,
                 CompanyName = request.CompanyName,
-                HostManagerEmail = request.HostManagerEmail,
                 WebSite = request.WebSite
             };
             return await _mediator.Send(command);

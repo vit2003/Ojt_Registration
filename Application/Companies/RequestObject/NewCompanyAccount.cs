@@ -16,8 +16,6 @@ namespace Application.Companies.RequestObject
         [Required]
         public string Username { get; set; }
         [Required]
-        public string Code { get; set; }
-        [Required]
         public string Password { get; set; }
     }
 }

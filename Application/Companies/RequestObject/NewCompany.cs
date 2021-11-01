@@ -15,7 +15,5 @@ namespace Application.Companies.RequestObject
         public string Address { get; set; }
         [Required]
         public string WebSite { get; set; }
-        [Required]
-        public string HostManagerEmail { get; set; }
     }
 }
