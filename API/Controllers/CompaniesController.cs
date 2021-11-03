@@ -88,16 +88,18 @@ namespace API.Controllers
         /// Role: Company
         /// </summary>
         /// <param name="username">Account username</param>
+        /// <param name="oldpassword">Old password</param>
         /// <param name="password">New password</param>
         /// <returns></returns>
         [HttpPut]
         [Route("account/update")]
-        public async Task<ActionResult<Unit>> UpdatePassword(string username, string password)
+        public async Task<ActionResult<Unit>> UpdatePassword(string username, string password,string oldpassword)
         {
             var command = new UpdatePassword.Command
             {
                 Username = username,
-                Password = password
+                OldPassword = oldpassword,
+                NewPassword = password
             };
             return await _mediator.Send(command);
         }
