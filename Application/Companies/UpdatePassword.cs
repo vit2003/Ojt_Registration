@@ -1,4 +1,5 @@
-﻿using Application.Interface;
+﻿using Application.Error;
+using Application.Interface;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -16,7 +17,8 @@ namespace Application.Companies
         public class Command : IRequest
         {
             public string Username { get; set; }
-            public string Password { get; set; }
+            public string NewPassword { get; set; }
+            public string OldPassword { get; set; }
         }
         public class Handler : IRequestHandler<Command>
         {
@@ -31,13 +33,18 @@ namespace Application.Companies
             }
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-
                 var account = await _context.CompanyAccounts.FirstOrDefaultAsync(x => x.Username == request.Username);
 
-                if(request.Password != null && request.Password.Length > 0)
+                string hasingOldPassword = _hasingSupport.encriptSHA256(request.OldPassword);
+                if (account.Password != hasingOldPassword)
                 {
-                    string hasingPassword = _hasingSupport.encriptSHA256(request.Password);
-                    account.Password = hasingPassword;
+                    throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Invalid Password");
+                }
+
+                if(request.NewPassword != null && request.NewPassword.Length > 0)
+                {
+                    string hasingNewPassword = _hasingSupport.encriptSHA256(request.NewPassword);
+                    account.Password = hasingNewPassword;
                 }
                 
                 _context.CompanyAccounts.Update(account);
