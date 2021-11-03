@@ -60,7 +60,7 @@ namespace Application.Recruitment_Informations
                     Content = request.Information.Content,
                     Deadline = request.Information.Deadline,
                     IsDeleted = false,
-                    Position = "Interm",
+                    Position = "Internship",
                     Salary = request.Information.Salary,
                     Topic = request.Information.Topic,
                     MajorId = major.Id
