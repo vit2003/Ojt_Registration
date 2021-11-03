@@ -84,5 +84,22 @@ namespace API.Controllers
             };
             return await _mediator.Send(command);
         }
+        /// <summary>
+        /// Role: Company
+        /// </summary>
+        /// <param name="username">Account username</param>
+        /// <param name="password">New password</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("account/update")]
+        public async Task<ActionResult<Unit>> UpdatePassword(string username, string password)
+        {
+            var command = new UpdatePassword.Command
+            {
+                Username = username,
+                Password = password
+            };
+            return await _mediator.Send(command);
+        }
     }
 }
