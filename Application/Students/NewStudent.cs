@@ -38,6 +38,7 @@ namespace Application.Students
                 }
                 return -1;
             }
+
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 var listmajor = await _context.Majors.ToListAsync();
@@ -63,7 +64,21 @@ namespace Application.Students
 
                     if(StudentinDomain.MajorId == -1)
                     {
-                        throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Invalid MajorName: "+StudentinDomain.Major+" of student: "+StudentinDomain.StudentCode);
+                        throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Invalid MajorName "+student.MajorName+" of student: "+StudentinDomain.StudentCode);
+                    }
+
+                    //Check exist studentCode
+                    var student_list = await _context.Students.ToListAsync();
+
+                    foreach(Student checkStudent in student_list)
+                    {
+                        foreach (Student studentInList in student_list)
+                        {
+                            if (student.StudentCode == checkStudent.StudentCode)
+                            {
+                                throw new UpdateError(System.Net.HttpStatusCode.BadRequest, "Student code: " + checkStudent.StudentCode + " is duplicated");
+                            }
+                        }
                     }
 
                     _context.Students.Add(StudentinDomain);
