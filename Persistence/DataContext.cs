@@ -284,6 +284,26 @@ namespace Persistence
                     .HasConstraintName("FK_tbl_student_tbl_major");
             });
 
+            modelBuilder.Entity<Semester>(entity =>
+            {
+                entity.ToTable("tbl_semesters");
+
+                entity.Property(e => e.Id)
+                    .HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("Name")
+                    .HasColumnType("nvarchar(max)");
+
+                entity.Property(e => e.EndDate)
+                    .HasColumnType("datetime2(7)")
+                    .HasColumnName("EndDate");
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("datetime2(7)")
+                    .HasColumnName("StartDate");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 
