@@ -1,4 +1,5 @@
 ﻿using Application.Error;
+using Application.Interface;
 using Application.Semester.CsResponse;
 using Domain;
 using MediatR;
@@ -23,10 +24,12 @@ namespace Application.Semester
         public class Handler : IRequestHandler<Query, List<StudentInSemester>>
         {
             private readonly DataContext _context;
+            private readonly IHasingSupport _hasingSupport;
 
-            public Handler(DataContext context)
+            public Handler(DataContext context, IHasingSupport hasingSupport)
             {
                 _context = context;
+                _hasingSupport = hasingSupport;
             }
             public async Task<List<StudentInSemester>> Handle(Query request, CancellationToken cancellationToken)
             {
@@ -52,7 +55,7 @@ namespace Application.Semester
                         {
                             CompanyName = student.Company.CompanyName,
                             Email = student.Email,
-                            EndDate = student.EndDate,
+                            EndDate = _hasingSupport.parseEndDate(student.EndDate),
                             Fullname = student.Fullname,
                             Gpa = student.Gpa,
                             MajorName = student.Major.MajorName,

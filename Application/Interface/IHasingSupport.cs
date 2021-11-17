@@ -8,6 +8,7 @@ namespace Application.Interface
 {
     public interface IHasingSupport
     {
+        string parseEndDate(string endDate);
         string encriptSHA256(string password);
     }
 }
