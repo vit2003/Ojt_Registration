@@ -22,5 +22,14 @@ namespace Infrastructure.Hasing
             }
             return hashString;
         }
+
+        public string parseEndDate(string endDate)
+        {
+            string month = endDate.Trim().Substring(0, 2);
+            string date = endDate.Trim().Substring(3, 2);
+            string year = endDate.Trim().Substring(6, 4);
+            string time = endDate.Trim().Substring(11);
+            return year + "-" + month + "-" + date + " " + time;
+        }
     }
 }
