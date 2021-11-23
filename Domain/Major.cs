@@ -16,5 +16,6 @@ namespace Domain
         public string MajorName { get; set; }
 
         public virtual ICollection<Student> Students { get; set; }
+        public virtual MajorCompany MajorCompany { get; set; }
     }
 }

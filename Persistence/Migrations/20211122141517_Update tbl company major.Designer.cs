@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211122141517_Update tbl company major")]
+    partial class Updatetblcompanymajor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,16 +44,16 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("LastInteractDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MajorCompanyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("WebSite")
                         .HasColumnType("text")
                         .HasColumnName("web_site");
 
+                    b.Property<int?>("majorCompanyId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("MajorCompanyId");
+                    b.HasIndex("majorCompanyId");
 
                     b.ToTable("tbl_company");
                 });
@@ -129,16 +131,16 @@ namespace Persistence.Migrations
                         .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MajorCompanyId")
-                        .HasColumnType("int");
-
                     b.Property<string>("MajorName")
                         .HasColumnType("varchar(MAX)")
                         .HasColumnName("major_name");
 
+                    b.Property<int?>("majorCompanyId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("MajorCompanyId");
+                    b.HasIndex("majorCompanyId");
 
                     b.ToTable("tbl_major");
                 });
@@ -149,12 +151,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MajorId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -437,11 +433,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Company", b =>
                 {
-                    b.HasOne("Domain.MajorCompany", "MajorCompany")
+                    b.HasOne("Domain.MajorCompany", "majorCompany")
                         .WithMany("Companies")
-                        .HasForeignKey("MajorCompanyId");
+                        .HasForeignKey("majorCompanyId");
 
-                    b.Navigation("MajorCompany");
+                    b.Navigation("majorCompany");
                 });
 
             modelBuilder.Entity("Domain.CompanyAccount", b =>
@@ -455,11 +451,11 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Major", b =>
                 {
-                    b.HasOne("Domain.MajorCompany", "MajorCompany")
+                    b.HasOne("Domain.MajorCompany", "majorCompany")
                         .WithMany("Majors")
-                        .HasForeignKey("MajorCompanyId");
+                        .HasForeignKey("majorCompanyId");
 
-                    b.Navigation("MajorCompany");
+                    b.Navigation("majorCompany");
                 });
 
             modelBuilder.Entity("Domain.OjtReports", b =>
