@@ -1,6 +1,8 @@
 ﻿using Application.Companies;
 using Application.Companies.RequestObject;
 using Application.Companies.ResponseObject;
+using Application.Students;
+using Application.Students.CustomizeRequestObject;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -100,6 +102,36 @@ namespace API.Controllers
                 Username = username,
                 OldPassword = oldpassword,
                 NewPassword = password
+            };
+            return await _mediator.Send(command);
+        }
+        /// <summary>
+        /// Role: FPT Staff
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("subcompanies")]
+        public async Task<ActionResult<List<SubCompany>>> GetSubCompany()
+        {
+            return await _mediator.Send(new GetSubCompany.Query());
+        }
+
+        /// <summary>
+        /// Role: FPT Staff
+        /// </summary>
+        /// <param name="companyid">Id returned in get list subcompany</param>
+        /// <param name="startdate">Date student start to work</param>
+        /// <param name="liststudent">List student's code of student apply to this sub company</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("subcompany/apply/{companyid}")]
+        public async Task<ActionResult<Unit>> AddStudent(int companyid, DateTime startdate, List<StudentNotInWork> liststudent)
+        {
+            var command = new AddStudentToSubCompany.Command
+            {
+                CompanyId = companyid,
+                StartDate = startdate,
+                Students = liststudent
             };
             return await _mediator.Send(command);
         }
