@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20211122140223_Update tbl_company, Add new tbl companyMajor")]
+    partial class Updatetbl_companyAddnewtblcompanyMajor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -149,12 +151,6 @@ namespace Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MajorId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -437,11 +433,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Company", b =>
                 {
-                    b.HasOne("Domain.MajorCompany", "MajorCompany")
+                    b.HasOne("Domain.MajorCompany", null)
                         .WithMany("Companies")
                         .HasForeignKey("MajorCompanyId");
-
-                    b.Navigation("MajorCompany");
                 });
 
             modelBuilder.Entity("Domain.CompanyAccount", b =>
@@ -455,11 +449,9 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Major", b =>
                 {
-                    b.HasOne("Domain.MajorCompany", "MajorCompany")
+                    b.HasOne("Domain.MajorCompany", null)
                         .WithMany("Majors")
                         .HasForeignKey("MajorCompanyId");
-
-                    b.Navigation("MajorCompany");
                 });
 
             modelBuilder.Entity("Domain.OjtReports", b =>
