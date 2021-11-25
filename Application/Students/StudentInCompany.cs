@@ -34,7 +34,7 @@ namespace Application.Students
                     .CompanyAccounts
                     .Include(x => x.Company)
                     .FirstOrDefaultAsync(x => x.Code == request.CompanyCode);
-                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == company_account.Id);
+                var company = await _context.Companies.FirstOrDefaultAsync(x => x.Id == company_account.Company.Id);
                 if (company == null) throw new Exception("Company not found");
                 //Find Student
                 var student_list = await _context
@@ -46,7 +46,7 @@ namespace Application.Students
                 {
                     var one_student = new StudentInList
                     {
-                        Position = "intership",
+                        Position = "internship",
                         StartDate = student.StartDate,
                         EndDate = student.EndDate,
                         Status = student.WorkingStatus,
