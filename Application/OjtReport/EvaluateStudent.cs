@@ -71,6 +71,7 @@ namespace Application.OjtReport
 
                 //Update endate of student
                 student.EndDate = DateTime.Now.ToString();
+                student.WorkingStatus = "Finished";
                 _context.Students.Update(student);
 
                 var success = await _context.SaveChangesAsync() > 0;
