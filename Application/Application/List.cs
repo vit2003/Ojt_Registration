@@ -51,7 +51,7 @@ namespace Application.Application
                         Id = listapp.Id,
                         StudentCode = listapp.Student.StudentCode,
                         Fullname = listapp.Student.Fullname,
-                        Position = "Interm",
+                        Position = "Intern",
                         Status = listapp.Status,
                         RegistrationDate = listapp.RegistrationDate
                     };
